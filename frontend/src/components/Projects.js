@@ -4,7 +4,7 @@
  * - On hover, show overlay with slideshow and arrows
  * - Show feature title/description below image
  */
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 
 const Projects = ({ projects = [] }) => {
   // Track current slide for each project by index
@@ -64,7 +64,7 @@ const Projects = ({ projects = [] }) => {
   };
 
   // Start auto slideshow for all projects
-  const startAutoSlideshow = () => {
+  const startAutoSlideshow = useCallback(() => {
     console.log('Starting auto slideshow...');
     projects.forEach((project, index) => {
       const featuresWithImages = (project.features || []).filter(f => f && f.imageUrl);
@@ -110,7 +110,7 @@ const Projects = ({ projects = [] }) => {
         }, 2000); // Change slide every 2 seconds
       }
     });
-  };
+  }, [projects, hoveredIndex]);
 
   // Auto slideshow effect - start on mount and when projects change
   useEffect(() => {
@@ -119,12 +119,12 @@ const Projects = ({ projects = [] }) => {
 
     return () => {
       // Cleanup all intervals
-      const intervals = intervalsRef.current;
-      Object.values(intervals).forEach(interval => {
+      const currentIntervals = intervalsRef.current;
+      Object.values(currentIntervals).forEach(interval => {
         if (interval) clearInterval(interval);
       });
     };
-  }, [projects, hoveredIndex, startAutoSlideshow]); // Add startAutoSlideshow to dependencies
+  }, [startAutoSlideshow]); // Only depend on startAutoSlideshow
 
   // Debug logging to check if slideshow is working
   useEffect(() => {
