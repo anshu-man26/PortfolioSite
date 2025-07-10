@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # My PortFolio Website
 
 A modern, responsive portfolio website built with React frontend and Node.js backend. Features a beautiful Apple-like design with admin panel for easy content management.
@@ -207,3 +208,6 @@ If you have any questions or need help with deployment:
 
 **Live Demo**: [Your Portfolio URL]
 **Admin Panel**: [Your Portfolio URL]/admin 
+=======
+# PortfolioSite
+>>>>>>> dd8dd1943dbae985945f49bdfc4c57592fe5b5f6
