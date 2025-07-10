@@ -17,7 +17,9 @@
     "create-admin": "cd backend && npm run create-admin",
     "setup": "npm run install-all && npm run create-admin",
     "deploy:build": "npm run build:frontend && npm run build:backend",
-    "deploy:start": "npm start"
+    "deploy:start": "npm start",
+    "vercel-build": "npm run install-all && npm run build:frontend",
+    "vercel-dev": "npm run dev"
   },
   "keywords": [
     "portfolio",
