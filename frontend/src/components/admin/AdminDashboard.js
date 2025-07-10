@@ -175,9 +175,7 @@ const AdminDashboard = () => {
   const removeExperience = (idx) => {
     setPortfolio((prev) => ({ ...prev, experience: prev.experience.filter((_, i) => i !== idx) }));
   };
-  const addEducation = () => {
-    setPortfolio((prev) => ({ ...prev, education: [...(prev.education || []), { type: 'college', institution: '', program: '', branch: '', startYear: '', endYear: '', description: '' }] }));
-  };
+
   const removeEducation = (idx) => {
     setPortfolio((prev) => ({ ...prev, education: prev.education.filter((_, i) => i !== idx) }));
   };

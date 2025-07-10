@@ -119,11 +119,12 @@ const Projects = ({ projects = [] }) => {
 
     return () => {
       // Cleanup all intervals
-      Object.values(intervalsRef.current).forEach(interval => {
+      const intervals = intervalsRef.current;
+      Object.values(intervals).forEach(interval => {
         if (interval) clearInterval(interval);
       });
     };
-  }, [projects, hoveredIndex]); // Add hoveredIndex back to dependencies
+  }, [projects, hoveredIndex, startAutoSlideshow]); // Add startAutoSlideshow to dependencies
 
   // Debug logging to check if slideshow is working
   useEffect(() => {
