@@ -1,12 +1,8 @@
 const express = require('express');
 const cors = require('cors');
-const dotenv = require('dotenv');
 const connectDB = require('./config/mongodb');
 const portfolioController = require('./controllers/portfolioController');
 const { verifyEmail } = require('./config/email');
-
-// Load environment variables
-dotenv.config();
 
 // Connect to MongoDB
 connectDB();
