@@ -16,9 +16,9 @@ router.get('/', getFeatures);
 
 // Protected admin routes
 router.post('/', protect, upload.single('image'), createFeature);
-router.put('/:id', protect, upload.single('image'), updateFeature);
-router.delete('/:id', protect, deleteFeature);
 router.put('/order/update', protect, updateFeatureOrder);
 router.put('/:id/toggle-key', protect, toggleKeyFeature);
+router.put('/:id', protect, upload.single('image'), updateFeature);
+router.delete('/:id', protect, deleteFeature);
 
 module.exports = router; 

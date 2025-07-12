@@ -17,8 +17,7 @@ const otpSchema = new mongoose.Schema({
   },
   expiresAt: {
     type: Date,
-    required: true,
-    index: { expireAfterSeconds: 0 } // Auto-delete expired documents
+    required: true
   },
   used: {
     type: Boolean,
