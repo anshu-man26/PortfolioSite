@@ -57,7 +57,7 @@ const Experience = ({ experience, education }) => {
               ) : (
                 <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-br from-emerald-500/40 to-cyan-500/40 border border-white/20">
                   <svg className="w-6 h-6 text-white/90" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 14.25v-4.5m0 0V6.75m0 3v-3m0 3h3.75m-3.75 0H8.25M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg>
-                </span>
+              </span>
               )}
               <div className="flex-1">
                 {edu.type === 'college' ? (

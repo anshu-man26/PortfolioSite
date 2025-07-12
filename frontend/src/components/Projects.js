@@ -117,9 +117,11 @@ const Projects = ({ projects = [] }) => {
     // Start slideshow immediately
     startAutoSlideshow();
 
+    // Capture the current intervals ref value to avoid stale closure in cleanup
+    const currentIntervals = intervalsRef.current;
+
     return () => {
-      // Cleanup all intervals
-      const currentIntervals = intervalsRef.current;
+      // Cleanup all intervals using the captured value
       Object.values(currentIntervals).forEach(interval => {
         if (interval) clearInterval(interval);
       });
