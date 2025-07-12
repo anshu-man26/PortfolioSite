@@ -30,7 +30,7 @@ function App() {
   const defaultData = {
     personalInfo: {
           name: 'My Portfolio',
-    title: 'Full Stack Developer',
+      title: 'Full Stack Developer',
     email: 'contact@myportfolio.com',
       location: 'India',
       about: 'Passionate Full Stack Developer with expertise in MERN stack, React, Node.js, and modern web technologies. I build scalable and user-friendly applications with a focus on clean code and best practices.',
@@ -199,19 +199,19 @@ function App() {
             
             {/* Content */}
             <div className="relative z-10">
-              {/* Show notice if backend is offline and we're showing placeholders */}
-              {backendStatus === 'offline' && isShowingPlaceholders && <BackendOfflineNotice />}
-              
+            {/* Show notice if backend is offline and we're showing placeholders */}
+            {backendStatus === 'offline' && isShowingPlaceholders && <BackendOfflineNotice />}
+            
               <Header personalInfo={merged.personalInfo} />
-              <main>
-                <Hero personalInfo={merged.personalInfo} />
-                <Projects projects={merged.projects} />
-                <Experience experience={merged.experience} education={merged.education} />
-                <About personalInfo={merged.personalInfo} aboutMe={merged.aboutMe} />
-                <Skills skills={merged.skills} />
-                <Contact personalInfo={merged.personalInfo} />
-              </main>
-              <Footer />
+            <main>
+              <Hero personalInfo={merged.personalInfo} />
+              <Projects projects={merged.projects} />
+              <Experience experience={merged.experience} education={merged.education} />
+              <About personalInfo={merged.personalInfo} aboutMe={merged.aboutMe} />
+              <Skills skills={merged.skills} />
+              <Contact personalInfo={merged.personalInfo} />
+            </main>
+            <Footer />
               <AdminButton />
             </div>
           </div>
