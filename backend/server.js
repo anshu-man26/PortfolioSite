@@ -1,12 +1,10 @@
 const express = require('express');
 const cors = require('cors');
-const dotenv = require('dotenv');
+const path = require('path');
 const connectDB = require('./config/mongodb');
 const portfolioController = require('./controllers/portfolioController');
 const { verifyEmail } = require('./config/email');
-
-// Load environment variables
-dotenv.config();
+const fs = require('fs');
 
 // Connect to MongoDB
 connectDB();
@@ -41,9 +39,27 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'OK', message: 'Portfolio API is running' });
 });
 
+// Root endpoint for backend health check
+app.get('/', (req, res) => {
+  res.send('Backend API working fine');
+});
+
 // Serve static files (for images)
 app.use('/images', express.static('public/images'));
 
-const PORT = process.env.PORT || 5000;
+const frontendBuildPath = path.join(__dirname, '../frontend/build');
+if (fs.existsSync(frontendBuildPath)) {
+  app.use(express.static(frontendBuildPath));
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(frontendBuildPath, 'index.html'));
+  });
+}
 
+<<<<<<< HEAD
 app.listen(PORT, "0.0.0.0", () => console.log("Server running"));
+=======
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Portfolio server running on port ${PORT}`);
+});
+>>>>>>> 9f8f2f97afc276f4ddc85afa71e8ddbda4daab93

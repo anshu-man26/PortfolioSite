@@ -1,5 +1,7 @@
 # My Portfolio Website
 
+deployed here: https://anshuman.up.railway.app/
+
 A modern portfolio website built with React frontend and Node.js backend.
 
 ## Quick Start
