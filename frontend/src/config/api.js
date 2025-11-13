@@ -1,5 +1,5 @@
-const API_BASE_URL = process.env.REACT_APP_API_URL || "http://13.53.173.237:5000";
-
+const API_BASE_URL = process.env.REACT_APP_API_URL ;
+console.log('API_BASE_URL:', API_BASE_URL);
 export const API_ENDPOINTS = {
   PORTFOLIO: `${API_BASE_URL}/api/portfolio`,
   HEALTH: `${API_BASE_URL}/api/health`,

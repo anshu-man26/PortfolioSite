@@ -54,12 +54,5 @@ if (fs.existsSync(frontendBuildPath)) {
     res.sendFile(path.join(frontendBuildPath, 'index.html'));
   });
 }
-
-<<<<<<< HEAD
-app.listen(PORT, "0.0.0.0", () => console.log("Server running"));
-=======
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, '0.0.0.0', () => {
-  console.log(`Portfolio server running on port ${PORT}`);
-});
->>>>>>> 9f8f2f97afc276f4ddc85afa71e8ddbda4daab93
+app.listen(PORT, "0.0.0.0", () => console.log("Server running"));
