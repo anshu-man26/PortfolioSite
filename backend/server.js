@@ -4,6 +4,7 @@ const path = require('path');
 const connectDB = require('./config/mongodb');
 const portfolioController = require('./controllers/portfolioController');
 const { verifyEmail } = require('./config/email');
+const fs = require('fs');
 
 // Connect to MongoDB
 connectDB();
@@ -38,19 +39,23 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'OK', message: 'Portfolio API is running' });
 });
 
+// Root endpoint for backend health check
+app.get('/', (req, res) => {
+  res.send('Backend API working fine');
+});
+
 // Serve static files (for images)
 app.use('/images', express.static('public/images'));
 
-// Serve frontend build files
-app.use(express.static(path.join(__dirname, '../frontend/build')));
-
-// Handle React routing, return all requests to React app
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../frontend/build', 'index.html'));
-});
+const frontendBuildPath = path.join(__dirname, '../frontend/build');
+if (fs.existsSync(frontendBuildPath)) {
+  app.use(express.static(frontendBuildPath));
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(frontendBuildPath, 'index.html'));
+  });
+}
 
 const PORT = process.env.PORT || 5000;
-
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`Portfolio server running on port ${PORT}`);
-}); 
+});
