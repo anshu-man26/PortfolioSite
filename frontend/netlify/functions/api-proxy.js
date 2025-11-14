@@ -1,14 +1,15 @@
 const fetch = require('node-fetch');
 
 exports.handler = async (event) => {
-  // The path will be like: /.netlify/functions/api/portfolio
-  // We need to extract 'portfolio' and call http://13.53.173.237:5000/api/portfolio
+  // Redirect sends /api/portfolio -> /.netlify/functions/api-proxy/portfolio
+  // So event.path will be like: /.netlify/functions/api-proxy/portfolio
+  // We extract 'portfolio' and build: http://13.53.173.237:5000/api/portfolio
   
   const requestPath = event.path;
-  const apiEndpoint = requestPath.replace('/.netlify/functions/api/', '').replace('/.netlify/functions/api', '');
+  const endpoint = requestPath.replace('/.netlify/functions/api-proxy/', '').replace('/.netlify/functions/api-proxy', '');
   
   // Build the backend URL with /api prefix
-  const backendUrl = `http://13.53.173.237:5000/api/${apiEndpoint}${event.rawQuery ? '?' + event.rawQuery : ''}`;
+  const backendUrl = `http://13.53.173.237:5000/api/${endpoint}${event.rawQuery ? '?' + event.rawQuery : ''}`;
   
   console.log('Proxying:', event.httpMethod, backendUrl);
   
