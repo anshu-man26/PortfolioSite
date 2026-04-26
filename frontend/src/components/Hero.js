@@ -1,9 +1,10 @@
 import React from 'react';
 
-const Hero = ({ personalInfo }) => {
+const Hero = ({ personalInfo, siteCopy = {} }) => {
   const resumeLink = personalInfo?.resumeLink;
   const title = personalInfo?.title || 'Full Stack Developer';
   const name = personalInfo?.name || 'My Portfolio';
+  const showAvailability = siteCopy.availability !== false && !!siteCopy.availabilityText;
 
   return (
     <section
@@ -65,35 +66,39 @@ const Hero = ({ personalInfo }) => {
       <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-10 grid md:grid-cols-12 gap-10 items-center">
         {/* Left: typography */}
         <div className="md:col-span-7 space-y-6">
-          <div className="animate-fade-in-up">
-            <span
-              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs md:text-sm tracking-widest uppercase border"
-              style={{
-                color: 'rgb(var(--lime))',
-                borderColor: 'rgba(var(--lime), 0.4)',
-                backgroundColor: 'rgba(0,0,0,0.15)',
-              }}
-            >
-              <span className="relative flex h-2 w-2">
-                <span
-                  className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75"
-                  style={{ backgroundColor: 'rgb(var(--lime))' }}
-                />
-                <span
-                  className="relative inline-flex rounded-full h-2 w-2"
-                  style={{ backgroundColor: 'rgb(var(--lime))' }}
-                />
+          {showAvailability && (
+            <div className="animate-fade-in-up">
+              <span
+                className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs md:text-sm tracking-widest uppercase border"
+                style={{
+                  color: 'rgb(var(--lime))',
+                  borderColor: 'rgba(var(--lime), 0.4)',
+                  backgroundColor: 'rgba(0,0,0,0.15)',
+                }}
+              >
+                <span className="relative flex h-2 w-2">
+                  <span
+                    className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75"
+                    style={{ backgroundColor: 'rgb(var(--lime))' }}
+                  />
+                  <span
+                    className="relative inline-flex rounded-full h-2 w-2"
+                    style={{ backgroundColor: 'rgb(var(--lime))' }}
+                  />
+                </span>
+                {siteCopy.availabilityText}
               </span>
-              Available for opportunities
-            </span>
-          </div>
+            </div>
+          )}
 
-          <div className="animate-fade-in-up animation-delay-200">
-            <p className="text-base md:text-lg font-light text-white/80">Hello, I'm</p>
-            <h2 className="text-2xl md:text-3xl font-medium text-white tracking-tight">
-              {name}
-            </h2>
-          </div>
+          {siteCopy.greeting && (
+            <div className="animate-fade-in-up animation-delay-200">
+              <p className="text-base md:text-lg font-light text-white/80">{siteCopy.greeting}</p>
+              <h2 className="text-2xl md:text-3xl font-medium text-white tracking-tight">
+                {name}
+              </h2>
+            </div>
+          )}
 
           <div className="animate-fade-in-up animation-delay-400">
             <h1
@@ -113,25 +118,29 @@ const Hero = ({ personalInfo }) => {
 
           <div className="animate-fade-in-up animation-delay-800 pt-4">
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
-              <button
-                onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })}
-                className="px-7 py-3.5 rounded-full font-semibold transition-all duration-300 hover:scale-[1.04] hover:shadow-2xl"
-                style={{
-                  backgroundColor: 'rgb(var(--lime))',
-                  color: 'rgb(var(--ink))',
-                  boxShadow: '0 10px 30px rgba(199, 251, 110, 0.35)',
-                }}
-              >
-                View My Work
-              </button>
-              <button
-                onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
-                className="px-7 py-3.5 rounded-full font-semibold border-2 text-white transition-all duration-300 hover:scale-[1.04]"
-                style={{ borderColor: 'rgba(var(--lime), 0.6)' }}
-              >
-                Get In Touch
-              </button>
-              {resumeLink && (
+              {siteCopy.ctaPrimary && (
+                <button
+                  onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })}
+                  className="px-7 py-3.5 rounded-full font-semibold transition-all duration-300 hover:scale-[1.04] hover:shadow-2xl"
+                  style={{
+                    backgroundColor: 'rgb(var(--lime))',
+                    color: 'rgb(var(--ink))',
+                    boxShadow: '0 10px 30px rgba(199, 251, 110, 0.35)',
+                  }}
+                >
+                  {siteCopy.ctaPrimary}
+                </button>
+              )}
+              {siteCopy.ctaSecondary && (
+                <button
+                  onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+                  className="px-7 py-3.5 rounded-full font-semibold border-2 text-white transition-all duration-300 hover:scale-[1.04]"
+                  style={{ borderColor: 'rgba(var(--lime), 0.6)' }}
+                >
+                  {siteCopy.ctaSecondary}
+                </button>
+              )}
+              {resumeLink && siteCopy.ctaResume && (
                 <a
                   href={resumeLink}
                   target="_blank"
@@ -142,18 +151,20 @@ const Hero = ({ personalInfo }) => {
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                   </svg>
-                  Resume
+                  {siteCopy.ctaResume}
                 </a>
               )}
             </div>
           </div>
 
-          <div className="animate-fade-in-up animation-delay-1000 pt-8 max-w-lg">
-            <div className="text-white/85 text-sm leading-relaxed">
-              <span className="block w-6 h-px mb-2" style={{ backgroundColor: 'rgb(var(--lime))' }} />
-              Building scalable products with clean code and modern best practices.
+          {siteCopy.tagline && (
+            <div className="animate-fade-in-up animation-delay-1000 pt-8 max-w-lg">
+              <div className="text-white/85 text-sm leading-relaxed">
+                <span className="block w-6 h-px mb-2" style={{ backgroundColor: 'rgb(var(--lime))' }} />
+                {siteCopy.tagline}
+              </div>
             </div>
-          </div>
+          )}
         </div>
 
         {/* Right: portrait card */}

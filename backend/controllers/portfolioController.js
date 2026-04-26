@@ -27,6 +27,9 @@ exports.updatePortfolio = async (req, res) => {
     portfolio.aboutMe = req.body.aboutMe !== undefined ? req.body.aboutMe : portfolio.aboutMe;
     portfolio.experience = req.body.experience || portfolio.experience;
     portfolio.education = req.body.education || portfolio.education;
+    if (req.body.siteCopy) {
+      portfolio.siteCopy = { ...(portfolio.siteCopy?.toObject?.() || portfolio.siteCopy || {}), ...req.body.siteCopy };
+    }
     await portfolio.save();
     res.json(portfolio);
   } catch (err) {

@@ -36,6 +36,21 @@ const educationSchema = new mongoose.Schema({
   schoolPfp: String, // URL to school profile picture
 });
 
+const siteCopySchema = new mongoose.Schema({
+  greeting: String,             // Hero greeting line, e.g. "Hello, I'm"
+  tagline: String,              // Hero secondary blurb
+  availability: { type: Boolean, default: true }, // show/hide availability pill
+  availabilityText: String,     // pill text, e.g. "Available for opportunities"
+  ctaPrimary: String,           // primary CTA label
+  ctaSecondary: String,         // secondary CTA label
+  ctaResume: String,            // resume CTA label
+  navAbout: String,
+  navSkills: String,
+  navProjects: String,
+  navExperience: String,
+  navContact: String,
+}, { _id: false });
+
 const portfolioSchema = new mongoose.Schema({
   personalInfo: {
     name: String,
@@ -51,6 +66,7 @@ const portfolioSchema = new mongoose.Schema({
   aboutMe: String, // Separate About Me field for About section
   experience: [experienceSchema],
   education: [educationSchema],
+  siteCopy: siteCopySchema,
 });
 
 module.exports = mongoose.model('Portfolio', portfolioSchema); 

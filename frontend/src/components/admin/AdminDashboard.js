@@ -162,6 +162,8 @@ const AdminDashboard = () => {
       } else if (section === 'education') {
         updated.education = [...updated.education];
         updated.education[idx][field] = value;
+      } else if (section === 'siteCopy') {
+        updated.siteCopy = { ...(updated.siteCopy || {}), [field]: value };
       }
       return updated;
     });
@@ -196,6 +198,7 @@ const AdminDashboard = () => {
           aboutMe: portfolio.aboutMe,
           experience: portfolio.experience,
           education: portfolio.education,
+          siteCopy: portfolio.siteCopy,
         }),
       });
       if (!res.ok) throw new Error('Failed to update portfolio');
@@ -1367,6 +1370,7 @@ const AdminDashboard = () => {
                 <button onClick={() => setPortfolioTab('education')} className={`px-4 py-2 rounded-lg ${portfolioTab === 'education' ? 'bg-white/20 text-white' : 'text-white/70 hover:bg-white/10'}`}>Education</button>
                 <button onClick={() => setPortfolioTab('skills')} className={`px-4 py-2 rounded-lg ${portfolioTab === 'skills' ? 'bg-white/20 text-white' : 'text-white/70 hover:bg-white/10'}`}>Skills</button>
                 <button onClick={() => setPortfolioTab('social')} className={`px-4 py-2 rounded-lg ${portfolioTab === 'social' ? 'bg-white/20 text-white' : 'text-white/70 hover:bg-white/10'}`}>Social/Contact</button>
+                <button onClick={() => setPortfolioTab('copy')} className={`px-4 py-2 rounded-lg ${portfolioTab === 'copy' ? 'bg-white/20 text-white' : 'text-white/70 hover:bg-white/10'}`}>Site Copy</button>
               </div>
               {portfolioLoading && <div className="text-white/60 mb-4">Loading...</div>}
               {portfolioError && <div className="text-[#FF6B8A] mb-4">{portfolioError}</div>}
@@ -1569,7 +1573,97 @@ const AdminDashboard = () => {
                       </div>
                     </div>
                   )}
-                  <button type="submit" className="px-6 py-2 rounded-lg bg-green-600 hover:bg-green-700 text-white font-medium transition-all duration-200 shadow-md" disabled={portfolioLoading}>Save Changes</button>
+                  {portfolioTab === 'copy' && (
+                    <div className="space-y-8">
+                      <div>
+                        <div className="text-[10px] uppercase tracking-[0.32em] font-mono text-white/45 mb-3">Hero copy</div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <input
+                            className="px-4 py-3 rounded-lg bg-white/20 text-white font-light"
+                            value={portfolio.siteCopy?.greeting || ''}
+                            onChange={e => handlePortfolioChange('siteCopy', 'greeting', e.target.value)}
+                            placeholder="Greeting (e.g. Hello, I'm)"
+                          />
+                          <input
+                            className="px-4 py-3 rounded-lg bg-white/20 text-white font-light"
+                            value={portfolio.siteCopy?.availabilityText || ''}
+                            onChange={e => handlePortfolioChange('siteCopy', 'availabilityText', e.target.value)}
+                            placeholder="Availability text (e.g. Available for opportunities)"
+                          />
+                          <textarea
+                            className="md:col-span-2 px-4 py-3 rounded-lg bg-white/20 text-white font-light"
+                            rows="2"
+                            value={portfolio.siteCopy?.tagline || ''}
+                            onChange={e => handlePortfolioChange('siteCopy', 'tagline', e.target.value)}
+                            placeholder="Tagline below the description (e.g. Building scalable products with clean code…)"
+                          />
+                        </div>
+
+                        <div className="mt-4 bg-white/5 p-4 rounded-lg border border-white/10 flex items-center justify-between">
+                          <div>
+                            <h4 className="text-white font-medium mb-1">Show availability pill</h4>
+                            <p className="text-white/55 text-sm">Hide it when you're booked or not interested in opportunities.</p>
+                          </div>
+                          <label className="relative inline-flex items-center cursor-pointer">
+                            <input
+                              type="checkbox"
+                              className="sr-only peer"
+                              checked={portfolio.siteCopy?.availability !== false}
+                              onChange={e => handlePortfolioChange('siteCopy', 'availability', e.target.checked)}
+                            />
+                            <div className="w-11 h-6 bg-white/20 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-[#C7FB6E]/40 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#C7FB6E]"></div>
+                          </label>
+                        </div>
+                      </div>
+
+                      <div>
+                        <div className="text-[10px] uppercase tracking-[0.32em] font-mono text-white/45 mb-3">Call-to-action labels</div>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                          <input
+                            className="px-4 py-3 rounded-lg bg-white/20 text-white font-light"
+                            value={portfolio.siteCopy?.ctaPrimary || ''}
+                            onChange={e => handlePortfolioChange('siteCopy', 'ctaPrimary', e.target.value)}
+                            placeholder="Primary CTA (e.g. View My Work)"
+                          />
+                          <input
+                            className="px-4 py-3 rounded-lg bg-white/20 text-white font-light"
+                            value={portfolio.siteCopy?.ctaSecondary || ''}
+                            onChange={e => handlePortfolioChange('siteCopy', 'ctaSecondary', e.target.value)}
+                            placeholder="Secondary CTA (e.g. Get In Touch)"
+                          />
+                          <input
+                            className="px-4 py-3 rounded-lg bg-white/20 text-white font-light"
+                            value={portfolio.siteCopy?.ctaResume || ''}
+                            onChange={e => handlePortfolioChange('siteCopy', 'ctaResume', e.target.value)}
+                            placeholder="Resume CTA (e.g. Resume)"
+                          />
+                        </div>
+                        <p className="text-white/45 text-xs mt-2">Leave a CTA blank to hide that button.</p>
+                      </div>
+
+                      <div>
+                        <div className="text-[10px] uppercase tracking-[0.32em] font-mono text-white/45 mb-3">Navigation labels</div>
+                        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
+                          {[
+                            ['navAbout', 'About'],
+                            ['navSkills', 'Skills'],
+                            ['navProjects', 'Projects'],
+                            ['navExperience', 'Experience'],
+                            ['navContact', 'Contact'],
+                          ].map(([field, fallback]) => (
+                            <input
+                              key={field}
+                              className="px-4 py-3 rounded-lg bg-white/20 text-white font-light"
+                              value={portfolio.siteCopy?.[field] || ''}
+                              onChange={e => handlePortfolioChange('siteCopy', field, e.target.value)}
+                              placeholder={fallback}
+                            />
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                  <button type="submit" className="px-6 py-2 rounded-lg bg-[#C7FB6E] hover:bg-[#C7FB6E]/90 text-[#0a0820] font-bold uppercase tracking-[0.18em] text-xs transition-all duration-200 hover:-translate-y-0.5" disabled={portfolioLoading}>Save Changes</button>
                 </form>
               )}
             </div>

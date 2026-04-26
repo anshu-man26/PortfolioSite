@@ -72,6 +72,20 @@ const DEFAULT_DATA = {
     },
   ],
   projects: [],
+  siteCopy: {
+    greeting: "Hello, I'm",
+    tagline: 'Building scalable products with clean code and modern best practices.',
+    availability: true,
+    availabilityText: 'Available for opportunities',
+    ctaPrimary: 'View My Work',
+    ctaSecondary: 'Get In Touch',
+    ctaResume: 'Resume',
+    navAbout: 'About',
+    navSkills: 'Skills',
+    navProjects: 'Projects',
+    navExperience: 'Experience',
+    navContact: 'Contact',
+  },
 };
 
 const LoadingSkeleton = () => (
@@ -181,6 +195,17 @@ function MainSite() {
 
   if (loading) return <LoadingSkeleton />;
 
+  // Merge siteCopy: backend wins per-field if provided, otherwise default
+  const incomingCopy = portfolioData?.siteCopy || {};
+  const mergedSiteCopy = Object.fromEntries(
+    Object.entries(DEFAULT_DATA.siteCopy).map(([k, v]) => {
+      const incoming = incomingCopy[k];
+      // For booleans pass through as-is; for strings, fall back if empty/undefined
+      if (typeof v === 'boolean') return [k, typeof incoming === 'boolean' ? incoming : v];
+      return [k, (incoming && String(incoming).trim()) ? incoming : v];
+    })
+  );
+
   const merged = {
     personalInfo: { ...DEFAULT_DATA.personalInfo, ...(portfolioData?.personalInfo || {}) },
     aboutMe: portfolioData?.aboutMe || '',
@@ -194,6 +219,7 @@ function MainSite() {
       ? portfolioData.personalInfo.skills
       : DEFAULT_DATA.personalInfo.skills,
     projects: (backendStatus === 'online' && projects.length > 0) ? projects : DEFAULT_DATA.projects,
+    siteCopy: mergedSiteCopy,
   };
 
   const BackendOfflineNotice = () => (
@@ -248,9 +274,9 @@ function MainSite() {
       <div className="relative z-10">
         {backendStatus === 'offline' && isShowingPlaceholders && <BackendOfflineNotice />}
 
-        <Header />
+        <Header siteCopy={merged.siteCopy} />
         <main>
-          <Hero personalInfo={merged.personalInfo} />
+          <Hero personalInfo={merged.personalInfo} siteCopy={merged.siteCopy} />
           <Projects projects={merged.projects} />
           <Experience experience={merged.experience} education={merged.education} />
           <About personalInfo={merged.personalInfo} aboutMe={merged.aboutMe} />

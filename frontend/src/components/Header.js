@@ -1,14 +1,18 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 
-const NAV_ITEMS = [
-  { id: 'about', label: 'About' },
-  { id: 'skills', label: 'Skills' },
-  { id: 'projects', label: 'Projects' },
-  { id: 'experience', label: 'Experience' },
-  { id: 'contact', label: 'Contact' },
-];
+const NAV_IDS = ['about', 'skills', 'projects', 'experience', 'contact'];
 
-const Header = () => {
+const Header = ({ siteCopy = {} }) => {
+  const NAV_ITEMS = useMemo(
+    () => [
+      { id: 'about', label: siteCopy.navAbout || 'About' },
+      { id: 'skills', label: siteCopy.navSkills || 'Skills' },
+      { id: 'projects', label: siteCopy.navProjects || 'Projects' },
+      { id: 'experience', label: siteCopy.navExperience || 'Experience' },
+      { id: 'contact', label: siteCopy.navContact || 'Contact' },
+    ],
+    [siteCopy.navAbout, siteCopy.navSkills, siteCopy.navProjects, siteCopy.navExperience, siteCopy.navContact]
+  );
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeId, setActiveId] = useState('');
@@ -17,10 +21,9 @@ const Header = () => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
 
-      // figure out which section is roughly in view
       const threshold = window.innerHeight * 0.35;
       let current = '';
-      for (const { id } of NAV_ITEMS) {
+      for (const id of NAV_IDS) {
         const el = document.getElementById(id);
         if (!el) continue;
         const rect = el.getBoundingClientRect();
