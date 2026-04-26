@@ -40,7 +40,7 @@ const ScrollProgress = () => {
         type="button"
         onClick={goTop}
         aria-label="Back to top"
-        className={`fixed bottom-24 right-6 z-50 w-12 h-12 rounded-full backdrop-blur-md border-2
+        className={`fixed bottom-6 right-6 z-50 w-12 h-12 rounded-full backdrop-blur-md border-2
                     flex items-center justify-center shadow-lg
                     transition-all duration-300 hover:scale-110
                     ${showTop ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'}`}

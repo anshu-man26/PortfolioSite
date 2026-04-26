@@ -148,11 +148,7 @@ const Hero = ({ personalInfo }) => {
             </div>
           </div>
 
-          <div className="animate-fade-in-up animation-delay-1000 pt-8 grid grid-cols-1 sm:grid-cols-2 gap-5 max-w-lg">
-            <div className="text-white/85 text-sm leading-relaxed">
-              <span className="block w-6 h-px mb-2" style={{ backgroundColor: 'rgb(var(--lime))' }} />
-              Highly skilled at progressive enhancement, design systems & UI engineering.
-            </div>
+          <div className="animate-fade-in-up animation-delay-1000 pt-8 max-w-lg">
             <div className="text-white/85 text-sm leading-relaxed">
               <span className="block w-6 h-px mb-2" style={{ backgroundColor: 'rgb(var(--lime))' }} />
               Building scalable products with clean code and modern best practices.

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { API_ENDPOINTS } from '../../config/api';
-import portfolioIcon from '../../assets/portfolio.png';
 import ChangePassword from './ChangePassword';
 
 const handleLogout = () => {
@@ -661,34 +660,34 @@ const AdminDashboard = () => {
     : [];
 
   return (
-    <div className="min-h-screen flex bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
-      {/* Enhanced Sidebar */}
-      <aside className="w-72 bg-white/5 backdrop-blur-xl border-r border-white/10 flex flex-col p-8 shadow-2xl">
-        {/* Logo/Brand */}
-        <div className="mb-12">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center overflow-hidden">
-              <img 
-                src={portfolioIcon} 
-                alt="Portfolio Icon" 
-                className="w-8 h-8 object-contain"
-              />
-            </div>
-            <div>
-              <h1 className="text-xl font-semibold text-white">Portfolio Admin</h1>
-              <p className="text-xs text-white/60">Content Management</p>
-            </div>
+    <div className="min-h-screen flex" style={{ backgroundColor: '#0a0820' }}>
+      {/* Sidebar */}
+      <aside className="w-72 border-r flex flex-col p-7" style={{ backgroundColor: '#0f0d2a', borderColor: 'rgba(255,255,255,0.06)' }}>
+        {/* Brand */}
+        <div className="mb-10">
+          <div className="flex items-center gap-3 mb-1">
+            <div
+              className="w-3 h-3"
+              style={{ backgroundColor: '#C7FB6E' }}
+              aria-hidden="true"
+            />
+            <span className="text-[10px] uppercase tracking-[0.32em] font-mono text-white/55">
+              Portfolio
+            </span>
           </div>
+          <h1 className="text-2xl font-extrabold text-white tracking-[-0.02em] leading-tight">
+            Admin <span style={{ color: '#C7FB6E' }}>console</span>
+          </h1>
         </div>
 
         {/* Navigation */}
         <nav className="flex-1 space-y-2">
           <button 
             onClick={() => setTab('projects')} 
-            className={`w-full text-left py-3 px-4 rounded-xl transition-all duration-300 flex items-center gap-3 group ${
+            className={`w-full text-left py-2.5 px-3 transition-colors duration-200 flex items-center gap-3 text-sm font-medium ${
               tab === 'projects' 
-                ? 'bg-gradient-to-r from-blue-500/20 to-purple-500/20 text-white border border-blue-500/30 shadow-lg' 
-                : 'text-white/70 hover:text-white hover:bg-white/10 border border-transparent hover:border-white/20'
+                ? 'bg-[#C7FB6E]/[0.08] text-white border border-[#C7FB6E]/40'
+                : 'text-white/65 hover:text-white hover:bg-white/[0.04] border border-transparent'
             }`}
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -696,16 +695,16 @@ const AdminDashboard = () => {
             </svg>
             <span className="font-medium">Projects</span>
             {tab === 'projects' && (
-              <div className="ml-auto w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>
+              <span className="ml-auto text-[#C7FB6E] font-bold">▸</span>
             )}
           </button>
           
           <button 
             onClick={() => setTab('features')} 
-            className={`w-full text-left py-3 px-4 rounded-xl transition-all duration-300 flex items-center gap-3 group ${
+            className={`w-full text-left py-2.5 px-3 transition-colors duration-200 flex items-center gap-3 text-sm font-medium ${
               tab === 'features' 
-                ? 'bg-gradient-to-r from-blue-500/20 to-purple-500/20 text-white border border-blue-500/30 shadow-lg' 
-                : 'text-white/70 hover:text-white hover:bg-white/10 border border-transparent hover:border-white/20'
+                ? 'bg-[#C7FB6E]/[0.08] text-white border border-[#C7FB6E]/40'
+                : 'text-white/65 hover:text-white hover:bg-white/[0.04] border border-transparent'
             }`}
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -713,16 +712,16 @@ const AdminDashboard = () => {
             </svg>
             <span className="font-medium">Features</span>
             {tab === 'features' && (
-              <div className="ml-auto w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>
+              <span className="ml-auto text-[#C7FB6E] font-bold">▸</span>
             )}
           </button>
           
           <button 
             onClick={() => setTab('portfolio')} 
-            className={`w-full text-left py-3 px-4 rounded-xl transition-all duration-300 flex items-center gap-3 group ${
+            className={`w-full text-left py-2.5 px-3 transition-colors duration-200 flex items-center gap-3 text-sm font-medium ${
               tab === 'portfolio' 
-                ? 'bg-gradient-to-r from-blue-500/20 to-purple-500/20 text-white border border-blue-500/30 shadow-lg' 
-                : 'text-white/70 hover:text-white hover:bg-white/10 border border-transparent hover:border-white/20'
+                ? 'bg-[#C7FB6E]/[0.08] text-white border border-[#C7FB6E]/40'
+                : 'text-white/65 hover:text-white hover:bg-white/[0.04] border border-transparent'
             }`}
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -730,22 +729,24 @@ const AdminDashboard = () => {
             </svg>
             <span className="font-medium">Portfolio</span>
             {tab === 'portfolio' && (
-              <div className="ml-auto w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>
+              <span className="ml-auto text-[#C7FB6E] font-bold">▸</span>
             )}
           </button>
         </nav>
 
         {/* Stats */}
-        <div className="mb-8 p-4 bg-white/5 rounded-xl border border-white/10">
-          <h3 className="text-sm font-medium text-white/80 mb-3">Quick Stats</h3>
-          <div className="space-y-2">
-            <div className="flex justify-between text-xs">
-              <span className="text-white/60">Projects</span>
-              <span className="text-white font-medium">{projects.length}</span>
+        <div className="mb-7 pt-6 border-t" style={{ borderColor: 'rgba(255,255,255,0.06)' }}>
+          <div className="text-[10px] uppercase tracking-[0.32em] font-mono text-white/40 mb-3">
+            Counts
+          </div>
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <div className="text-3xl font-extrabold text-white tabular-nums">{projects.length}</div>
+              <div className="text-[10px] uppercase tracking-[0.18em] text-white/45 mt-0.5">Projects</div>
             </div>
-            <div className="flex justify-between text-xs">
-              <span className="text-white/60">Features</span>
-              <span className="text-white font-medium">{features.length}</span>
+            <div>
+              <div className="text-3xl font-extrabold text-white tabular-nums">{features.length}</div>
+              <div className="text-[10px] uppercase tracking-[0.18em] text-white/45 mt-0.5">Features</div>
             </div>
           </div>
         </div>
@@ -753,23 +754,25 @@ const AdminDashboard = () => {
         {/* Change Password */}
         <button
           onClick={() => setShowChangePassword(true)}
-          className="py-3 px-4 rounded-xl bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-medium transition-all duration-300 flex items-center gap-3 justify-center shadow-lg hover:shadow-xl mb-3"
+          className="py-2.5 px-3 text-sm font-medium text-white border transition-colors flex items-center gap-3 mb-2 hover:bg-[#C7FB6E]/[0.06]"
+          style={{ borderColor: 'rgba(199,251,110,0.30)' }}
         >
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
           </svg>
-          Change Password
+          Change password
         </button>
 
         {/* Logout */}
         <button
           onClick={handleLogout}
-          className="py-3 px-4 rounded-xl bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white font-medium transition-all duration-300 flex items-center gap-3 justify-center shadow-lg hover:shadow-xl"
+          className="py-2.5 px-3 text-sm font-medium border transition-colors flex items-center gap-3 hover:bg-[#FF6B8A]/[0.08]"
+          style={{ color: '#FF6B8A', borderColor: 'rgba(255,107,138,0.30)' }}
         >
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
           </svg>
-          Logout
+          Sign out
         </button>
       </aside>
       {/* Enhanced Main Content */}
@@ -784,7 +787,7 @@ const AdminDashboard = () => {
                 </div>
                 <button
                   onClick={() => setShowAdd((v) => !v)}
-                  className="px-6 py-3 rounded-xl bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-medium transition-all duration-300 shadow-lg hover:shadow-xl flex items-center gap-2"
+                  className="px-6 py-3 rounded-xl bg-[#C7FB6E] text-[#0a0820] font-bold uppercase tracking-[0.18em] text-xs transition-all duration-200 hover:-translate-y-0.5 flex items-center gap-2"
                 >
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
@@ -795,7 +798,7 @@ const AdminDashboard = () => {
               {showAdd && (
                 <form onSubmit={handleAddProject} className="bg-white/5 backdrop-blur-xl p-8 rounded-2xl mb-8 border border-white/10 shadow-2xl">
                   <h3 className="text-2xl font-semibold text-white mb-6 flex items-center gap-3">
-                    <svg className="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-6 h-6 text-[#C7FB6E]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                     </svg>
                     Add New Project
@@ -809,7 +812,7 @@ const AdminDashboard = () => {
                         value={newProject.title} 
                         onChange={handleInputChange} 
                         placeholder="Enter project title" 
-                        className="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white font-light focus:outline-none focus:border-blue-500/50 transition-all duration-300" 
+                        className="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white font-light focus:outline-none focus:border-[#C7FB6E] transition-colors duration-200" 
                         required 
                       />
                   </div>
@@ -820,7 +823,7 @@ const AdminDashboard = () => {
                         value={newProject.techStack} 
                         onChange={handleInputChange} 
                         placeholder="React, Node.js, MongoDB (comma separated)" 
-                        className="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white font-light focus:outline-none focus:border-blue-500/50 transition-all duration-300" 
+                        className="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white font-light focus:outline-none focus:border-[#C7FB6E] transition-colors duration-200" 
                       />
                     </div>
                     <div>
@@ -830,7 +833,7 @@ const AdminDashboard = () => {
                         value={newProject.github} 
                         onChange={handleInputChange} 
                         placeholder="https://github.com/username/project" 
-                        className="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white font-light focus:outline-none focus:border-blue-500/50 transition-all duration-300" 
+                        className="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white font-light focus:outline-none focus:border-[#C7FB6E] transition-colors duration-200" 
                       />
                     </div>
                     <div>
@@ -840,7 +843,7 @@ const AdminDashboard = () => {
                         value={newProject.live} 
                         onChange={handleInputChange} 
                         placeholder="https://project-demo.com" 
-                        className="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white font-light focus:outline-none focus:border-blue-500/50 transition-all duration-300" 
+                        className="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white font-light focus:outline-none focus:border-[#C7FB6E] transition-colors duration-200" 
                       />
                     </div>
                   </div>
@@ -853,14 +856,14 @@ const AdminDashboard = () => {
                       onChange={handleInputChange} 
                       placeholder="Describe your project, its features, and what you learned..." 
                       rows="4"
-                      className="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white font-light focus:outline-none focus:border-blue-500/50 transition-all duration-300 resize-none" 
+                      className="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white font-light focus:outline-none focus:border-[#C7FB6E] transition-colors duration-200 resize-none" 
                       required 
                     />
                   </div>
                   
                   <div className="mb-6">
                     <label className="block text-white/80 text-sm font-medium mb-2">Project Image</label>
-                    <div className="border-2 border-dashed border-white/20 rounded-xl p-6 text-center hover:border-blue-500/50 transition-all duration-300">
+                    <div className="border-2 border-dashed border-white/20 rounded-xl p-6 text-center hover:border-[#C7FB6E]/50 transition-all duration-300">
                       <input 
                         type="file" 
                         name="image" 
@@ -882,7 +885,7 @@ const AdminDashboard = () => {
                   <div className="flex gap-4">
                     <button 
                       type="submit" 
-                      className="px-8 py-3 rounded-xl bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white font-medium transition-all duration-300 shadow-lg hover:shadow-xl flex items-center gap-2" 
+                      className="px-8 py-3 rounded-xl bg-[#C7FB6E] text-[#0a0820] font-bold uppercase tracking-[0.18em] text-xs transition-all duration-200 hover:-translate-y-0.5 flex items-center gap-2" 
                       disabled={loading}
                     >
                       {loading ? (
@@ -912,7 +915,7 @@ const AdminDashboard = () => {
                   </div>
                 </form>
               )}
-              {error && <div className="mb-4 text-red-400 text-center text-sm font-light">{error}</div>}
+              {error && <div className="mb-4 text-[#FF6B8A] text-center text-sm font-light">{error}</div>}
               <div className="space-y-6">
                 {loading && (
                   <div className="flex items-center justify-center py-12">
@@ -937,7 +940,7 @@ const AdminDashboard = () => {
                     <p className="text-white/60 mb-6">Start by adding your first project to showcase your work</p>
                     <button
                       onClick={() => setShowAdd(true)}
-                      className="px-6 py-3 rounded-xl bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-medium transition-all duration-300 shadow-lg hover:shadow-xl flex items-center gap-2 mx-auto"
+                      className="px-6 py-3 rounded-xl bg-[#C7FB6E] text-[#0a0820] font-bold uppercase tracking-[0.18em] text-xs transition-all duration-200 hover:-translate-y-0.5 flex items-center gap-2 mx-auto"
                     >
                       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
@@ -959,7 +962,7 @@ const AdminDashboard = () => {
                             className="w-full h-32 lg:h-full object-cover rounded-xl shadow-lg" 
                           />
                         ) : (
-                          <div className="w-full h-32 lg:h-full bg-gradient-to-br from-blue-500/20 to-purple-500/20 rounded-xl flex items-center justify-center border border-white/10">
+                          <div className="w-full h-32 lg:h-full bg-[#C7FB6E]/10 border border-[#C7FB6E]/30 rounded-xl flex items-center justify-center border border-white/10">
                             <svg className="w-12 h-12 text-white/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                             </svg>
@@ -970,7 +973,7 @@ const AdminDashboard = () => {
                       {/* Project Content */}
                     <div className="flex-1">
                         <div className="flex items-start justify-between mb-3">
-                          <h3 className="text-2xl font-semibold text-white group-hover:text-blue-400 transition-colors duration-300">
+                          <h3 className="text-2xl font-semibold text-white group-hover:text-[#C7FB6E] transition-colors duration-300">
                             {project.title}
                           </h3>
                           <div className="flex gap-2">
@@ -985,7 +988,7 @@ const AdminDashboard = () => {
                             </button>
                             <button 
                               onClick={() => handleDeleteProject(project._id)} 
-                              className="p-2 rounded-lg bg-red-500/20 hover:bg-red-500/30 text-red-400 hover:text-red-300 transition-all duration-300"
+                              className="p-2 rounded-lg bg-[#FF6B8A]/10 hover:bg-[#FF6B8A]/20 text-[#FF6B8A] transition-all duration-300"
                               title="Delete Project"
                             >
                               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1015,7 +1018,7 @@ const AdminDashboard = () => {
                               href={project.github} 
                               target="_blank" 
                               rel="noopener noreferrer" 
-                              className="flex items-center gap-2 text-blue-400 hover:text-blue-300 transition-colors duration-300"
+                              className="flex items-center gap-2 text-[#C7FB6E] hover:text-[#C7FB6E]/80 transition-colors duration-300"
                             >
                               <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                                 <path d="M12 2C6.48 2 2 6.58 2 12.26c0 4.49 2.87 8.3 6.84 9.64.5.09.68-.22.68-.48 0-.24-.01-.87-.01-1.7-2.78.62-3.37-1.36-3.37-1.36-.45-1.18-1.1-1.5-1.1-1.5-.9-.63.07-.62.07-.62 1 .07 1.53 1.05 1.53 1.05.89 1.56 2.34 1.11 2.91.85.09-.66.35-1.11.63-1.37-2.22-.26-4.56-1.14-4.56-5.07 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.7 0 0 .84-.28 2.75 1.05A9.38 9.38 0 0 1 12 6.84c.85.004 1.71.12 2.51.35 1.91-1.33 2.75-1.05 2.75-1.05.55 1.4.2 2.44.1 2.7.64.72 1.03 1.63 1.03 2.75 0 3.94-2.34 4.81-4.57 5.07.36.32.68.94.68 1.9 0 1.37-.01 2.47-.01 2.81 0 .27.18.58.69.48A10.01 10.01 0 0 0 22 12.26C22 6.58 17.52 2 12 2z" />
@@ -1057,7 +1060,7 @@ const AdminDashboard = () => {
                     <input type="file" name="image" accept="image/*" onChange={handleEditInputChange} className="mb-4 text-gray-900" />
                     <div className="flex gap-4 justify-end">
                       <button type="button" onClick={closeEditModal} className="px-6 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium transition-all duration-200">Cancel</button>
-                      <button type="submit" className="px-6 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-medium transition-all duration-200" disabled={loading}>{loading ? 'Saving...' : 'Save Changes'}</button>
+                      <button type="submit" className="px-6 py-2 rounded-lg bg-[#C7FB6E] hover:bg-[#C7FB6E]/90 text-[#0a0820] font-bold font-medium transition-all duration-200" disabled={loading}>{loading ? 'Saving...' : 'Save Changes'}</button>
                     </div>
                     {error && <div className="mt-4 text-red-500 text-center text-sm font-light">{error}</div>}
                   </form>
@@ -1071,7 +1074,7 @@ const AdminDashboard = () => {
                     <p className="text-gray-700 mb-6">Are you sure you want to delete this project? This action cannot be undone.</p>
                     {error && <div className="mb-4 text-red-500 text-center text-sm font-light">{error}</div>}
                     <div className="flex gap-4 justify-center">
-                      <button onClick={confirmDeleteProject} className="px-6 py-2 rounded-lg bg-red-600 hover:bg-red-700 text-white font-medium transition-all duration-200">Delete</button>
+                      <button onClick={confirmDeleteProject} className="px-6 py-2 rounded-lg bg-transparent border border-[#FF6B8A]/40 text-[#FF6B8A] hover:bg-[#FF6B8A]/10 font-medium transition-all duration-200">Delete</button>
                       <button onClick={cancelDeleteProject} className="px-6 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium transition-all duration-200">Cancel</button>
                     </div>
                   </div>
@@ -1090,7 +1093,7 @@ const AdminDashboard = () => {
                       onClick={() => setShowProjectSelector(!showProjectSelector)}
                       className={`px-6 py-3 rounded-xl border transition-all duration-200 flex items-center gap-3 min-w-[280px] ${
                         selectedProject 
-                          ? 'bg-blue-500/20 border-blue-500/30 text-white' 
+                          ? 'bg-[#C7FB6E]/10 border-[#C7FB6E]/40 text-white' 
                           : 'bg-white/10 border-white/20 text-white/70 hover:bg-white/20'
                       }`}
                     >
@@ -1122,7 +1125,7 @@ const AdminDashboard = () => {
                               placeholder="Search projects..."
                               value={projectSearchTerm}
                               onChange={(e) => setProjectSearchTerm(e.target.value)}
-                              className="w-full px-4 py-2 pl-10 bg-white/20 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:border-blue-500/50"
+                              className="w-full px-4 py-2 pl-10 bg-white/20 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:border-[#C7FB6E]"
                             />
                             <svg className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-white/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -1148,12 +1151,12 @@ const AdminDashboard = () => {
                                     setProjectSearchTerm('');
                                   }}
                                   className={`p-4 cursor-pointer transition-all duration-200 hover:bg-white/10 ${
-                                    selectedProject === project._id ? 'bg-blue-500/20 border-l-4 border-blue-500' : ''
+                                    selectedProject === project._id ? 'bg-[#C7FB6E]/10 border-l-4 border-[#C7FB6E]' : ''
                                   }`}
                                 >
                                   <div className="flex items-center gap-3">
                                     {/* Project Icon */}
-                                    <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-500/30 to-purple-500/30 flex items-center justify-center flex-shrink-0">
+                                    <div className="w-10 h-10 rounded-lg bg-[#4F35E6]/40 flex items-center justify-center flex-shrink-0">
                                       <svg className="w-5 h-5 text-white/80" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                                       </svg>
@@ -1165,14 +1168,14 @@ const AdminDashboard = () => {
                                       <div className="text-sm text-white/60 flex items-center gap-4">
                                         <span>{projectFeatures.length} feature{projectFeatures.length !== 1 ? 's' : ''}</span>
                                         {keyFeatures.length > 0 && (
-                                          <span className="text-blue-400">{keyFeatures.length} key</span>
+                                          <span className="text-[#C7FB6E]">{keyFeatures.length} key</span>
                                         )}
                                       </div>
                                     </div>
                                     
                                     {/* Selection Indicator */}
                                     {selectedProject === project._id && (
-                                      <div className="w-5 h-5 rounded-full bg-blue-500 flex items-center justify-center flex-shrink-0">
+                                      <div className="w-5 h-5 rounded-full bg-[#C7FB6E] text-[#0a0820] flex items-center justify-center flex-shrink-0">
                                         <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
                                           <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                                         </svg>
@@ -1202,7 +1205,7 @@ const AdminDashboard = () => {
                         setNewFeature(prev => ({ ...prev, project: selectedProject }));
                         setShowAddFeature(true);
                       }}
-                      className="px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-medium transition-all duration-200 shadow-md flex items-center gap-2"
+                      className="px-6 py-3 rounded-xl bg-[#C7FB6E] hover:bg-[#C7FB6E]/90 text-[#0a0820] font-bold font-medium transition-all duration-200 shadow-md flex items-center gap-2"
                     >
                       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
@@ -1215,7 +1218,7 @@ const AdminDashboard = () => {
               
               {!selectedProject && (
                 <div className="text-center py-16">
-                  <div className="w-24 h-24 mx-auto mb-6 rounded-full bg-gradient-to-br from-blue-500/20 to-purple-500/20 flex items-center justify-center">
+                  <div className="w-24 h-24 mx-auto mb-6 rounded-full bg-[#C7FB6E]/10 border border-[#C7FB6E]/30 flex items-center justify-center">
                     <svg className="w-12 h-12 text-white/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                     </svg>
@@ -1254,7 +1257,7 @@ const AdminDashboard = () => {
                       </div>
                     </form>
                   )}
-                  {error && <div className="mb-4 text-red-400 text-center text-sm font-light">{error}</div>}
+                  {error && <div className="mb-4 text-[#FF6B8A] text-center text-sm font-light">{error}</div>}
                   <div className="space-y-6">
                     {loading && <div className="text-white/60">Loading...</div>}
                     {isReordering && <div className="text-white/60 text-center">Reordering features...</div>}
@@ -1271,7 +1274,7 @@ const AdminDashboard = () => {
                               key={feature._id} 
                               className={`bg-white/5 rounded-xl p-6 flex flex-col md:flex-row items-center border border-white/10 cursor-move transition-all duration-200 ${
                                 draggedFeature?._id === feature._id ? 'opacity-50 scale-95' : ''
-                              } ${feature.isKeyFeature ? 'border-blue-500/30 bg-blue-500/5' : ''}`}
+                              } ${feature.isKeyFeature ? 'border-[#C7FB6E]/40 bg-[#C7FB6E]/[0.04]' : ''}`}
                               draggable
                               onDragStart={(e) => handleDragStart(e, feature)}
                               onDragOver={handleDragOver}
@@ -1287,7 +1290,7 @@ const AdminDashboard = () => {
                                   <div className="flex items-center gap-2 mb-2">
                                     <h2 className="text-2xl font-light text-white">{feature.title}</h2>
                                     {feature.isKeyFeature && (
-                                      <span className="px-2 py-1 bg-blue-500/20 text-blue-300 text-xs rounded-full">Key Feature</span>
+                                      <span className="px-2 py-1 bg-[#C7FB6E]/15 text-[#C7FB6E] text-xs rounded-full">Key Feature</span>
                                     )}
                                   </div>
                                   <p className="text-white/70 mb-2">{feature.description}</p>
@@ -1297,14 +1300,14 @@ const AdminDashboard = () => {
                                     onClick={() => handleToggleKeyFeature(feature._id)} 
                                     className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 ${
                                       feature.isKeyFeature 
-                                        ? 'bg-blue-600 hover:bg-blue-700 text-white' 
+                                        ? 'bg-[#C7FB6E] hover:bg-[#C7FB6E]/90 text-[#0a0820] font-bold' 
                                         : 'bg-gray-600 hover:bg-gray-700 text-white'
                                     }`}
                                   >
                                     {feature.isKeyFeature ? 'Remove Key' : 'Key Feature'}
                                   </button>
                                   <button onClick={() => openEditFeatureModal(feature)} className="px-4 py-2 rounded-lg bg-yellow-500 hover:bg-yellow-600 text-white font-medium transition-all duration-200">Edit</button>
-                                  <button onClick={() => handleDeleteFeature(feature._id)} className="px-4 py-2 rounded-lg bg-red-500 hover:bg-red-600 text-white font-medium transition-all duration-200">Delete</button>
+                                  <button onClick={() => handleDeleteFeature(feature._id)} className="px-4 py-2 rounded-lg bg-transparent border border-[#FF6B8A]/40 text-[#FF6B8A] hover:bg-[#FF6B8A]/10 font-medium transition-all duration-200">Delete</button>
                                 </div>
                               </div>
                             </div>
@@ -1333,7 +1336,7 @@ const AdminDashboard = () => {
                     </div>
                     <div className="flex gap-4 justify-end">
                       <button type="button" onClick={closeEditFeatureModal} className="px-6 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium transition-all duration-200">Cancel</button>
-                      <button type="submit" className="px-6 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-medium transition-all duration-200" disabled={loading}>{loading ? 'Saving...' : 'Save Changes'}</button>
+                      <button type="submit" className="px-6 py-2 rounded-lg bg-[#C7FB6E] hover:bg-[#C7FB6E]/90 text-[#0a0820] font-bold font-medium transition-all duration-200" disabled={loading}>{loading ? 'Saving...' : 'Save Changes'}</button>
                     </div>
                     {error && <div className="mt-4 text-red-500 text-center text-sm font-light">{error}</div>}
                   </form>
@@ -1347,7 +1350,7 @@ const AdminDashboard = () => {
                     <h3 className="text-xl font-semibold mb-4 text-gray-900">Delete Feature?</h3>
                     <p className="text-gray-700 mb-6">Are you sure you want to delete this feature? This action cannot be undone.</p>
                     <div className="flex gap-4 justify-center">
-                      <button onClick={confirmDeleteFeature} className="px-6 py-2 rounded-lg bg-red-600 hover:bg-red-700 text-white font-medium transition-all duration-200">Delete</button>
+                      <button onClick={confirmDeleteFeature} className="px-6 py-2 rounded-lg bg-transparent border border-[#FF6B8A]/40 text-[#FF6B8A] hover:bg-[#FF6B8A]/10 font-medium transition-all duration-200">Delete</button>
                       <button onClick={cancelDeleteFeature} className="px-6 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium transition-all duration-200">Cancel</button>
                     </div>
                   </div>
@@ -1366,9 +1369,9 @@ const AdminDashboard = () => {
                 <button onClick={() => setPortfolioTab('social')} className={`px-4 py-2 rounded-lg ${portfolioTab === 'social' ? 'bg-white/20 text-white' : 'text-white/70 hover:bg-white/10'}`}>Social/Contact</button>
               </div>
               {portfolioLoading && <div className="text-white/60 mb-4">Loading...</div>}
-              {portfolioError && <div className="text-red-400 mb-4">{portfolioError}</div>}
+              {portfolioError && <div className="text-[#FF6B8A] mb-4">{portfolioError}</div>}
               {uploadSuccess.message && (
-                <div className="mb-4 p-3 rounded-lg bg-green-500/20 border border-green-500/30 text-green-400 text-sm">
+                <div className="mb-4 p-3 rounded-lg bg-[#C7FB6E]/10 border border-[#C7FB6E]/40 text-[#C7FB6E] text-sm">
                   {uploadSuccess.message}
                 </div>
               )}
@@ -1402,7 +1405,7 @@ const AdminDashboard = () => {
                         {pendingPersonalPfp && (
                           <>
                             <img src={URL.createObjectURL(pendingPersonalPfp)} alt="Preview" className="w-16 h-16 rounded-full object-cover border border-white/20 ml-2" />
-                            <button type="button" onClick={handleUploadPersonalPfp} className="px-3 py-1 rounded bg-blue-600 hover:bg-blue-700 text-white text-xs font-medium ml-2" disabled={pfpUploadLoading}>Upload</button>
+                            <button type="button" onClick={handleUploadPersonalPfp} className="px-3 py-1 rounded bg-[#C7FB6E] hover:bg-[#C7FB6E]/90 text-[#0a0820] font-bold text-xs font-medium ml-2" disabled={pfpUploadLoading}>Upload</button>
                           </>
                         )}
                         {pfpUploadLoading && (
@@ -1444,10 +1447,10 @@ const AdminDashboard = () => {
                             <input className="flex-1 px-3 py-2 rounded bg-white/20 text-white font-light" value={exp.period} onChange={e => handlePortfolioChange('experience', 'period', e.target.value, idx)} placeholder="Period" />
                           </div>
                           <textarea className="w-full px-3 py-2 rounded bg-white/20 text-white font-light mb-2" value={exp.description} onChange={e => handlePortfolioChange('experience', 'description', e.target.value, idx)} placeholder="Description" />
-                          <button type="button" onClick={() => removeExperience(idx)} className="text-red-400 hover:underline text-xs">Remove</button>
+                          <button type="button" onClick={() => removeExperience(idx)} className="text-[#FF6B8A] hover:underline text-xs">Remove</button>
                         </div>
                       ))}
-                      <button type="button" onClick={addExperience} className="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-medium transition-all duration-200">Add Experience</button>
+                      <button type="button" onClick={addExperience} className="px-4 py-2 rounded-lg bg-[#C7FB6E] hover:bg-[#C7FB6E]/90 text-[#0a0820] font-bold font-medium transition-all duration-200">Add Experience</button>
                     </div>
                   )}
                   {portfolioTab === 'education' && (
@@ -1459,7 +1462,7 @@ const AdminDashboard = () => {
                               <option value="college">College/University</option>
                               <option value="school">School</option>
                             </select>
-                            <button type="button" onClick={() => removeEducation(idx)} className="text-red-400 hover:underline text-xs ml-auto">Remove</button>
+                            <button type="button" onClick={() => removeEducation(idx)} className="text-[#FF6B8A] hover:underline text-xs ml-auto">Remove</button>
                           </div>
                           {edu.type === 'college' && (
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mb-2">
@@ -1475,7 +1478,7 @@ const AdminDashboard = () => {
                                 {pendingEduPfp[idx] && (
                                   <>
                                     <img src={URL.createObjectURL(pendingEduPfp[idx])} alt="Preview" className="w-14 h-14 rounded object-cover border border-white/20 ml-2" />
-                                    <button type="button" onClick={() => handleUploadEducationPfp(idx, 'college')} className="px-3 py-1 rounded bg-blue-600 hover:bg-blue-700 text-white text-xs font-medium ml-2" disabled={eduPfpUploadLoading[idx]}>Upload</button>
+                                    <button type="button" onClick={() => handleUploadEducationPfp(idx, 'college')} className="px-3 py-1 rounded bg-[#C7FB6E] hover:bg-[#C7FB6E]/90 text-[#0a0820] font-bold text-xs font-medium ml-2" disabled={eduPfpUploadLoading[idx]}>Upload</button>
                                   </>
                                 )}
                                 {eduPfpUploadLoading[idx] && (
@@ -1503,7 +1506,7 @@ const AdminDashboard = () => {
                                 {pendingEduPfp[idx] && (
                                   <>
                                     <img src={URL.createObjectURL(pendingEduPfp[idx])} alt="Preview" className="w-14 h-14 rounded object-cover border border-white/20 ml-2" />
-                                    <button type="button" onClick={() => handleUploadEducationPfp(idx, 'school')} className="px-3 py-1 rounded bg-blue-600 hover:bg-blue-700 text-white text-xs font-medium ml-2" disabled={eduPfpUploadLoading[idx]}>Upload</button>
+                                    <button type="button" onClick={() => handleUploadEducationPfp(idx, 'school')} className="px-3 py-1 rounded bg-[#C7FB6E] hover:bg-[#C7FB6E]/90 text-[#0a0820] font-bold text-xs font-medium ml-2" disabled={eduPfpUploadLoading[idx]}>Upload</button>
                                   </>
                                 )}
                                 {eduPfpUploadLoading[idx] && (
@@ -1521,8 +1524,8 @@ const AdminDashboard = () => {
                         </div>
                       ))}
                       <div className="flex gap-4">
-                        <button type="button" onClick={() => setPortfolio(prev => ({ ...prev, education: [...(prev.education || []), { type: 'college', institution: '', program: '', branch: '', startYear: '', endYear: '', description: '' }] }))} className="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-medium transition-all duration-200">Add College/University</button>
-                        <button type="button" onClick={() => setPortfolio(prev => ({ ...prev, education: [...(prev.education || []), { type: 'school', schoolName: '', board: '', class: '', yearOfPassing: '', marks: '' }] }))} className="px-4 py-2 rounded-lg bg-purple-600 hover:bg-purple-700 text-white font-medium transition-all duration-200">Add School</button>
+                        <button type="button" onClick={() => setPortfolio(prev => ({ ...prev, education: [...(prev.education || []), { type: 'college', institution: '', program: '', branch: '', startYear: '', endYear: '', description: '' }] }))} className="px-4 py-2 rounded-lg bg-[#C7FB6E] hover:bg-[#C7FB6E]/90 text-[#0a0820] font-bold font-medium transition-all duration-200">Add College/University</button>
+                        <button type="button" onClick={() => setPortfolio(prev => ({ ...prev, education: [...(prev.education || []), { type: 'school', schoolName: '', board: '', class: '', yearOfPassing: '', marks: '' }] }))} className="px-4 py-2 rounded-lg bg-[#4F35E6] hover:bg-[#4F35E6]/90 text-white font-medium font-medium transition-all duration-200">Add School</button>
                       </div>
                     </div>
                   )}
@@ -1554,7 +1557,7 @@ const AdminDashboard = () => {
                               checked={portfolio.personalInfo?.socialLinks?.showPhone !== false}
                               onChange={e => handlePortfolioChange('socialLinks', 'showPhone', e.target.checked)}
                             />
-                            <div className="w-11 h-6 bg-white/20 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-800 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                            <div className="w-11 h-6 bg-white/20 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-[#C7FB6E]/40 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#C7FB6E]"></div>
                           </label>
                         </div>
                         <div className="mt-3 text-xs text-white/50">

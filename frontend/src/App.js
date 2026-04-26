@@ -13,7 +13,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 
 import AdminDashboard from './components/admin/AdminDashboard';
 import AdminRoute from './components/admin/AdminRoute';
-import AdminButton from './components/AdminButton';
+import CheatCode from './components/CheatCode';
 import { API_ENDPOINTS } from './config/api';
 
 function RequireAdminAuth({ children }) {
@@ -258,7 +258,7 @@ function MainSite() {
           <Contact personalInfo={merged.personalInfo} />
         </main>
         <Footer />
-        <AdminButton />
+        <CheatCode />
       </div>
     </div>
   );
