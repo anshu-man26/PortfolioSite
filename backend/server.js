@@ -1,58 +1,30 @@
-const express = require('express');
-const cors = require('cors');
+// Long-running Node entrypoint (local dev / classic VM hosts).
+// AWS Lambda invocations go through lambda.js instead.
+
+require('dotenv').config();
+
 const path = require('path');
-const connectDB = require('./config/mongodb');
-const portfolioController = require('./controllers/portfolioController');
-const { verifyEmail } = require('./config/email');
 const fs = require('fs');
+const express = require('express');
+const app = require('./app');
+const connectDB = require('./config/mongodb');
+const { verifyEmail } = require('./config/email');
 
-// Connect to MongoDB
+// Connect to MongoDB and verify email service on boot. These are
+// fire-and-forget here because their failure modes (connection error,
+// SMTP unreachable) are already logged inside their modules.
 connectDB();
-
-// Verify email service
 verifyEmail();
- 
-const app = express();
 
-// Middleware
-app.use(cors());
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
-// Import routes
-const adminRoutes = require('./routes/adminRoutes');
-const projectRoutes = require('./routes/projectRoutes');
-const featureRoutes = require('./routes/featureRoutes');
-const passwordRoutes = require('./routes/passwordRoutes');
-
-// Route middleware
-app.use('/api/admin', adminRoutes);
-app.use('/api/projects', projectRoutes);
-app.use('/api/features', featureRoutes);
-app.use('/api/password', passwordRoutes);
-
-// Public portfolio route
-app.get('/api/portfolio', portfolioController.getPortfolio);
-
-// Health check route
-app.get('/api/health', (req, res) => {
-  res.json({ status: 'OK', message: 'Portfolio API is running' });
-});
-
-// Root endpoint for backend health check
-app.get('/', (req, res) => {
-  res.send('Backend API working fine');
-});
-
-// Serve static files (for images)
-app.use('/images', express.static('public/images'));
-
+// In a unified deploy the frontend build sits next to the backend; serve
+// it as a static SPA. Lambda doesn't reach this code path.
 const frontendBuildPath = path.join(__dirname, '../frontend/build');
 if (fs.existsSync(frontendBuildPath)) {
   app.use(express.static(frontendBuildPath));
-  app.get('*', (req, res) => {
+  app.get('*', (_req, res) => {
     res.sendFile(path.join(frontendBuildPath, 'index.html'));
   });
 }
+
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, "0.0.0.0", () => console.log("Server running"));
+app.listen(PORT, '0.0.0.0', () => console.log(`Server running on :${PORT}`));
