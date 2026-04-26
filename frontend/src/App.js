@@ -75,9 +75,12 @@ const DEFAULT_DATA = {
 };
 
 const LoadingSkeleton = () => (
-  <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black relative overflow-hidden">
-    <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-500/15 rounded-full blur-3xl animate-pulse" />
-    <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/15 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1.5s' }} />
+  <div
+    className="min-h-screen relative overflow-hidden"
+    style={{ background: 'linear-gradient(135deg, rgb(var(--ink)), rgba(79,53,230,0.35), rgb(var(--ink)))' }}
+  >
+    <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full blur-3xl animate-pulse" style={{ backgroundColor: 'rgba(var(--indigo), 0.30)' }} />
+    <div className="absolute bottom-1/4 right-1/4 w-96 h-96 rounded-full blur-3xl animate-pulse" style={{ backgroundColor: 'rgba(var(--lime), 0.20)', animationDelay: '1.5s' }} />
     <div className="relative max-w-3xl mx-auto px-6 pt-32 space-y-6">
       <div className="skeleton h-6 w-40 mx-auto" />
       <div className="skeleton h-16 w-3/4 mx-auto" />
@@ -224,17 +227,20 @@ function MainSite() {
 
   return (
     <div className="App text-white overflow-x-hidden relative min-h-screen">
-      {/* Base gradient */}
-      <div className="fixed inset-0 bg-gradient-to-br from-black via-gray-900 to-black" />
+      {/* Base gradient — deep ink with hints of indigo */}
+      <div
+        className="fixed inset-0"
+        style={{ background: 'linear-gradient(135deg, rgb(var(--ink)), rgba(79,53,230,0.18), rgb(var(--ink)))' }}
+      />
 
       {/* Mouse-following aurora */}
       <div ref={auroraRef} className="aurora" aria-hidden="true" />
 
       {/* Slow-drifting blobs */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-slow-pulse" />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-slow-pulse" style={{ animationDelay: '3s' }} />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 bg-indigo-500/5 rounded-full blur-3xl animate-slow-pulse" style={{ animationDelay: '5s' }} />
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full blur-3xl animate-slow-pulse" style={{ backgroundColor: 'rgba(var(--indigo), 0.18)' }} />
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 rounded-full blur-3xl animate-slow-pulse" style={{ backgroundColor: 'rgba(var(--lime), 0.10)', animationDelay: '3s' }} />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 rounded-full blur-3xl animate-slow-pulse" style={{ backgroundColor: 'rgba(var(--indigo), 0.10)', animationDelay: '5s' }} />
       </div>
 
       <ScrollProgress />

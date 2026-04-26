@@ -11,11 +11,16 @@ const AdminButton = () => {
   return (
     <button
       onClick={handleAdminClick}
-      className="fixed bottom-6 right-6 z-50 bg-white/10 backdrop-blur-lg border border-white/20 rounded-full p-3 hover:bg-white/20 transition-all duration-200 group"
+      className="fixed bottom-6 right-6 z-50 backdrop-blur-lg border-2 rounded-full p-3 transition-all duration-200 group hover:scale-110"
+      style={{
+        backgroundColor: 'rgba(var(--indigo), 0.25)',
+        borderColor: 'rgba(var(--lime), 0.45)',
+      }}
       title="Admin Dashboard"
     >
-      <svg 
-        className="w-5 h-5 text-white/70 group-hover:text-white transition-colors duration-200" 
+      <svg
+        className="w-5 h-5 transition-colors duration-200"
+        style={{ color: 'rgb(var(--lime))' }}
         fill="none" 
         stroke="currentColor" 
         viewBox="0 0 24 24"

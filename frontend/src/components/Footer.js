@@ -1,8 +1,14 @@
 import React from 'react';
 
 const Footer = () => (
-  <footer className="relative mt-24 pt-12 pb-8 px-6 border-t border-white/10 bg-gradient-to-b from-transparent to-black/60">
-    <div className="absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" />
+  <footer
+    className="relative mt-24 pt-12 pb-8 px-6 border-t"
+    style={{
+      borderColor: 'rgba(var(--lime), 0.15)',
+      background: 'linear-gradient(to bottom, transparent, rgba(0,0,0,0.6))',
+    }}
+  >
+    <div className="absolute inset-x-0 -top-px h-px" style={{ background: 'linear-gradient(90deg, transparent, rgba(199,251,110,0.6), transparent)' }} />
     <div className="max-w-5xl mx-auto flex flex-col items-center gap-3 text-center">
       <div className="text-white/80 text-sm">
         &copy; {new Date().getFullYear()} My Portfolio. All rights reserved.

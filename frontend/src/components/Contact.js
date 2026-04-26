@@ -39,30 +39,30 @@ const Contact = ({ personalInfo }) => {
   const phone = socialLinks.phone || personalInfo?.phone;
   const showPhone = socialLinks.showPhone !== false;
 
+  const accentLime = { background: 'linear-gradient(135deg, rgba(199,251,110,0.22), rgba(79,53,230,0.10))' };
+  const accentIndigo = { background: 'linear-gradient(135deg, rgba(79,53,230,0.30), rgba(199,251,110,0.10))' };
+
   const cards = [
     {
       label: 'Email',
       value: email,
       href: `mailto:${email}`,
       icon: iconMail,
-      accent: 'from-blue-500/30 to-cyan-400/20',
-      ring: 'group-hover:ring-blue-400/40',
+      accentStyle: accentLime,
     },
     showPhone && phone && {
       label: 'Phone',
       value: phone,
       href: `tel:${phone}`,
       icon: iconPhone,
-      accent: 'from-emerald-500/30 to-teal-400/20',
-      ring: 'group-hover:ring-emerald-400/40',
+      accentStyle: accentIndigo,
     },
     socialLinks.github && {
       label: 'GitHub',
       value: socialLinks.github.replace(/^https?:\/\//, ''),
       href: socialLinks.github,
       icon: iconGithub,
-      accent: 'from-zinc-500/30 to-zinc-400/10',
-      ring: 'group-hover:ring-zinc-300/40',
+      accentStyle: accentLime,
       external: true,
     },
     socialLinks.linkedin && {
@@ -70,8 +70,7 @@ const Contact = ({ personalInfo }) => {
       value: socialLinks.linkedin.replace(/^https?:\/\//, ''),
       href: socialLinks.linkedin,
       icon: iconLinkedin,
-      accent: 'from-sky-500/30 to-blue-400/20',
-      ring: 'group-hover:ring-sky-400/40',
+      accentStyle: accentIndigo,
       external: true,
     },
     socialLinks.twitter && {
@@ -79,8 +78,7 @@ const Contact = ({ personalInfo }) => {
       value: socialLinks.twitter.replace(/^https?:\/\//, ''),
       href: socialLinks.twitter,
       icon: iconTwitter,
-      accent: 'from-sky-400/30 to-indigo-400/20',
-      ring: 'group-hover:ring-sky-300/40',
+      accentStyle: accentLime,
       external: true,
     },
     socialLinks.website && {
@@ -88,8 +86,7 @@ const Contact = ({ personalInfo }) => {
       value: socialLinks.website.replace(/^https?:\/\//, ''),
       href: socialLinks.website,
       icon: iconWebsite,
-      accent: 'from-purple-500/30 to-fuchsia-400/20',
-      ring: 'group-hover:ring-purple-400/40',
+      accentStyle: accentIndigo,
       external: true,
     },
   ].filter(Boolean);
@@ -114,18 +111,36 @@ const Contact = ({ personalInfo }) => {
               href={card.href}
               {...(card.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
               aria-label={`${card.label}: ${card.value}`}
-              className={`group block relative rounded-2xl border border-white/10 bg-gradient-to-br ${card.accent} backdrop-blur-xl p-5 hover-lift overflow-hidden ring-1 ring-transparent ${card.ring} transition-shadow`}
+              className="group block relative rounded-2xl border backdrop-blur-xl p-5 hover-lift overflow-hidden transition-shadow"
+              style={{
+                ...card.accentStyle,
+                borderColor: 'rgba(var(--lime), 0.20)',
+              }}
             >
-              <div className="absolute -top-12 -right-12 w-32 h-32 rounded-full bg-white/5 blur-2xl pointer-events-none" />
+              <div className="absolute -top-12 -right-12 w-32 h-32 rounded-full blur-2xl pointer-events-none" style={{ backgroundColor: 'rgba(var(--lime), 0.10)' }} />
               <div className="relative flex items-start gap-4">
-                <div className="w-11 h-11 rounded-xl bg-white/10 border border-white/15 flex items-center justify-center text-white shadow-md flex-shrink-0">
+                <div
+                  className="w-11 h-11 rounded-xl border flex items-center justify-center shadow-md flex-shrink-0"
+                  style={{
+                    backgroundColor: 'rgba(var(--lime), 0.14)',
+                    borderColor: 'rgba(var(--lime), 0.40)',
+                    color: 'rgb(var(--lime))',
+                  }}
+                >
                   {card.icon}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <div className="text-xs uppercase tracking-widest text-white/55 mb-1">{card.label}</div>
+                  <div className="text-xs uppercase tracking-widest mb-1" style={{ color: 'rgb(var(--lime))' }}>{card.label}</div>
                   <div className="text-white/95 font-light text-sm md:text-base break-all">{card.value}</div>
                 </div>
-                <svg className="w-4 h-4 text-white/40 group-hover:text-white group-hover:translate-x-1 group-hover:-translate-y-0.5 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                <svg
+                  className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-0.5 transition-all duration-300"
+                  style={{ color: 'rgba(var(--lime), 0.6)' }}
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  strokeWidth={2}
+                >
                   <path strokeLinecap="round" strokeLinejoin="round" d="M7 17L17 7M7 7h10v10" />
                 </svg>
               </div>

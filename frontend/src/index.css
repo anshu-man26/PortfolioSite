@@ -3,9 +3,13 @@
 @tailwind utilities;
 
 :root {
-  --accent-1: 99, 102, 241;   /* indigo-500 */
-  --accent-2: 168, 85, 247;   /* purple-500 */
-  --accent-3: 59, 130, 246;   /* blue-500 */
+  /* Bold electric palette */
+  --indigo: 79, 53, 230;       /* #4F35E6 — deep electric indigo */
+  --indigo-deep: 47, 30, 170;  /* darker indigo for shadows */
+  --lime: 199, 251, 110;       /* #C7FB6E — punchy lime */
+  --lime-deep: 162, 220, 80;
+  --cream: 245, 244, 240;      /* near-white card / page accents */
+  --ink: 12, 10, 36;            /* very dark navy/ink for body when paired with cream */
 }
 
 html {
@@ -19,7 +23,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #000;
+  background-color: rgb(var(--ink));
   color: #fff;
   text-rendering: optimizeLegibility;
 }
@@ -29,24 +33,24 @@ code {
     monospace;
 }
 
-/* Focus rings — visible only for keyboard users */
+/* Focus rings */
 :focus { outline: none; }
 :focus-visible {
-  outline: 2px solid rgba(255, 255, 255, 0.85);
+  outline: 2px solid rgba(var(--lime), 0.95);
   outline-offset: 3px;
   border-radius: 8px;
 }
 
 /* Selection */
 ::selection {
-  background: rgba(99, 102, 241, 0.4);
-  color: #fff;
+  background: rgba(var(--lime), 0.55);
+  color: rgb(var(--ink));
 }
 
-/* Glassmorphism */
+/* Glass — re-tinted */
 .glass {
-  background: rgba(255, 255, 255, 0.06);
-  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: 0 8px 32px 0 rgba(var(--indigo-deep), 0.35);
   backdrop-filter: blur(14px) saturate(140%);
   -webkit-backdrop-filter: blur(14px) saturate(140%);
   border-radius: 1.5rem;
@@ -62,7 +66,7 @@ code {
   animation: fadeInUp 0.9s cubic-bezier(0.23, 1, 0.32, 1) both;
 }
 
-/* Hover lift */
+/* Hover lift — lime glow */
 .hover-lift {
   transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1),
               box-shadow 0.4s cubic-bezier(0.23, 1, 0.32, 1),
@@ -70,9 +74,9 @@ code {
 }
 .hover-lift:hover {
   transform: translateY(-6px);
-  box-shadow: 0 18px 48px -12px rgba(99, 102, 241, 0.25),
-              0 8px 16px -8px rgba(0, 0, 0, 0.5);
-  border-color: rgba(255, 255, 255, 0.22);
+  box-shadow: 0 18px 48px -12px rgba(var(--lime), 0.25),
+              0 8px 18px -8px rgba(var(--indigo), 0.4);
+  border-color: rgba(var(--lime), 0.35);
 }
 
 /* Scroll-reveal */
@@ -91,17 +95,17 @@ code {
   transform: translate3d(0, 0, 0);
 }
 
-/* Aurora blobs follow cursor (set --mx, --my from JS) */
+/* Aurora — indigo + lime version */
 .aurora {
   position: fixed;
   inset: 0;
   pointer-events: none;
   z-index: 0;
   background:
-    radial-gradient(700px circle at var(--mx, 30%) var(--my, 20%),
-      rgba(99, 102, 241, 0.18), transparent 45%),
-    radial-gradient(600px circle at calc(100% - var(--mx, 30%)) calc(100% - var(--my, 20%)),
-      rgba(168, 85, 247, 0.16), transparent 45%);
+    radial-gradient(720px circle at var(--mx, 30%) var(--my, 20%),
+      rgba(var(--indigo), 0.30), transparent 50%),
+    radial-gradient(620px circle at calc(100% - var(--mx, 30%)) calc(100% - var(--my, 20%)),
+      rgba(var(--lime), 0.16), transparent 50%);
   transition: background 0.4s ease;
 }
 
@@ -109,24 +113,25 @@ code {
 .skill-chip {
   position: relative;
   overflow: hidden;
-  transition: transform 0.3s ease, border-color 0.3s ease, background 0.3s ease;
+  transition: transform 0.3s ease, border-color 0.3s ease, background 0.3s ease, color 0.3s ease;
 }
 .skill-chip::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.18) 50%, transparent 70%);
+  background: linear-gradient(120deg, transparent 30%, rgba(var(--lime), 0.35) 50%, transparent 70%);
   transform: translateX(-110%);
   transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .skill-chip:hover {
   transform: translateY(-3px);
-  border-color: rgba(255, 255, 255, 0.35);
-  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(var(--lime), 0.55);
+  background: rgba(var(--lime), 0.12);
+  color: rgb(var(--lime));
 }
 .skill-chip:hover::before { transform: translateX(110%); }
 
-/* Gradient title underline */
+/* Gradient title underline — now solid lime */
 .title-underline {
   position: relative;
   display: inline-block;
@@ -138,22 +143,22 @@ code {
   left: 0;
   bottom: 0;
   width: 56px;
-  height: 3px;
+  height: 4px;
   border-radius: 9999px;
-  background: linear-gradient(90deg, rgba(var(--accent-3), 0.9), rgba(var(--accent-2), 0.9));
-  box-shadow: 0 0 16px rgba(var(--accent-2), 0.5);
+  background: rgb(var(--lime));
+  box-shadow: 0 0 18px rgba(var(--lime), 0.55);
 }
 
-/* Custom scrollbar */
+/* Custom scrollbar — lime + indigo */
 ::-webkit-scrollbar { width: 10px; height: 10px; }
-::-webkit-scrollbar-track { background: #000; }
+::-webkit-scrollbar-track { background: rgb(var(--ink)); }
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, rgba(99,102,241,0.5), rgba(168,85,247,0.5));
+  background: linear-gradient(180deg, rgba(var(--indigo), 0.7), rgba(var(--lime), 0.7));
   border-radius: 8px;
-  border: 2px solid #000;
+  border: 2px solid rgb(var(--ink));
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, rgba(99,102,241,0.8), rgba(168,85,247,0.8));
+  background: linear-gradient(180deg, rgba(var(--indigo), 0.95), rgba(var(--lime), 0.95));
 }
 
 /* Skeleton shimmer */
@@ -164,11 +169,21 @@ code {
 .skeleton {
   background: linear-gradient(90deg,
     rgba(255,255,255,0.04) 0%,
-    rgba(255,255,255,0.10) 50%,
+    rgba(var(--lime),0.12) 50%,
     rgba(255,255,255,0.04) 100%);
   background-size: 800px 100%;
   animation: skeletonShimmer 1.6s linear infinite;
   border-radius: 0.75rem;
+}
+
+/* Memphis decoration helpers */
+.dot-grid {
+  background-image: radial-gradient(rgba(var(--lime), 0.55) 1.5px, transparent 1.6px);
+  background-size: 14px 14px;
+}
+.dot-grid-light {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.35) 1.5px, transparent 1.6px);
+  background-size: 14px 14px;
 }
 
 /* Reduced motion */

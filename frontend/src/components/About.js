@@ -19,10 +19,16 @@ const About = ({ personalInfo, aboutMe }) => {
       </Reveal>
 
       <Reveal delay={120}>
-        <div className="relative bg-gradient-to-br from-slate-900/40 via-slate-800/30 to-slate-700/30 backdrop-blur-xl border border-white/15 rounded-3xl p-8 md:p-10 shadow-2xl hover-lift overflow-hidden">
-          {/* Decorative blur */}
-          <div className="absolute -top-20 -left-20 w-64 h-64 rounded-full bg-blue-500/15 blur-3xl pointer-events-none" />
-          <div className="absolute -bottom-20 -right-20 w-64 h-64 rounded-full bg-purple-500/15 blur-3xl pointer-events-none" />
+        <div
+          className="relative backdrop-blur-xl border rounded-3xl p-8 md:p-10 shadow-2xl hover-lift overflow-hidden"
+          style={{
+            background:
+              'linear-gradient(135deg, rgba(79,53,230,0.18), rgba(199,251,110,0.10), rgba(255,255,255,0.04))',
+            borderColor: 'rgba(var(--lime), 0.20)',
+          }}
+        >
+          <div className="absolute -top-20 -left-20 w-64 h-64 rounded-full blur-3xl pointer-events-none" style={{ backgroundColor: 'rgba(var(--indigo), 0.30)' }} />
+          <div className="absolute -bottom-20 -right-20 w-64 h-64 rounded-full blur-3xl pointer-events-none" style={{ backgroundColor: 'rgba(var(--lime), 0.18)' }} />
 
           <div className="relative flex flex-col md:flex-row items-start gap-6 md:gap-8">
             {personalInfo?.pfp ? (
@@ -30,10 +36,17 @@ const About = ({ personalInfo, aboutMe }) => {
                 src={personalInfo.pfp}
                 alt={personalInfo?.name ? `${personalInfo.name}'s profile` : 'Profile'}
                 loading="lazy"
-                className="w-24 h-24 md:w-28 md:h-28 rounded-2xl object-cover border-2 border-white/25 flex-shrink-0 shadow-xl shadow-purple-500/10 ring-1 ring-white/10"
+                className="w-24 h-24 md:w-28 md:h-28 rounded-2xl object-cover border-2 flex-shrink-0 shadow-xl ring-1 ring-white/10"
+                style={{ borderColor: 'rgba(var(--lime), 0.55)', boxShadow: '0 12px 30px rgba(79,53,230,0.4)' }}
               />
             ) : (
-              <div className="w-24 h-24 md:w-28 md:h-28 rounded-2xl bg-gradient-to-br from-blue-500/30 to-purple-500/30 border-2 border-white/25 flex items-center justify-center flex-shrink-0 shadow-xl">
+              <div
+                className="w-24 h-24 md:w-28 md:h-28 rounded-2xl border-2 flex items-center justify-center flex-shrink-0 shadow-xl"
+                style={{
+                  background: 'linear-gradient(135deg, rgba(199,251,110,0.45), rgba(79,53,230,0.35))',
+                  borderColor: 'rgba(var(--lime), 0.55)',
+                }}
+              >
                 <svg className="w-10 h-10 text-white/85" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                 </svg>

@@ -47,22 +47,41 @@ const Experience = ({ experience, education }) => {
       <div className="grid md:grid-cols-2 gap-6 md:gap-8 mb-16">
         {expList.map((exp, idx) => (
           <Reveal key={idx} delay={idx * 100}>
-            <div className="group relative bg-gradient-to-br from-blue-900/25 via-purple-900/20 to-indigo-900/25 backdrop-blur-xl border border-white/15 rounded-2xl p-7 shadow-2xl hover-lift overflow-hidden h-full flex flex-col">
-              <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-blue-400/50 to-transparent" />
+            <div
+              className="group relative backdrop-blur-xl border rounded-2xl p-7 shadow-2xl hover-lift overflow-hidden h-full flex flex-col"
+              style={{
+                background: 'linear-gradient(135deg, rgba(79,53,230,0.30), rgba(79,53,230,0.10), rgba(199,251,110,0.06))',
+                borderColor: 'rgba(var(--lime), 0.20)',
+              }}
+            >
+              <div className="absolute top-0 left-0 w-full h-px" style={{ background: 'linear-gradient(90deg, transparent, rgba(199,251,110,0.7), transparent)' }} />
               <div className="flex items-start gap-4 mb-4">
-                <span className="inline-flex items-center justify-center w-11 h-11 rounded-xl bg-gradient-to-br from-blue-500/40 to-purple-500/40 border border-white/15 shadow-md shadow-purple-500/20 group-hover:scale-110 transition-transform duration-300">
+                <span
+                  className="inline-flex items-center justify-center w-11 h-11 rounded-xl border shadow-md group-hover:scale-110 transition-transform duration-300"
+                  style={{
+                    background: 'linear-gradient(135deg, rgba(199,251,110,0.55), rgba(79,53,230,0.45))',
+                    borderColor: 'rgba(var(--lime), 0.40)',
+                  }}
+                >
                   {briefcaseIcon}
                 </span>
                 <div className="flex-1 min-w-0">
                   <div className="text-xl font-semibold text-white leading-tight">{exp.title}</div>
-                  <div className="text-white/70 text-sm mt-0.5">{exp.company}</div>
+                  <div className="text-sm mt-0.5" style={{ color: 'rgb(var(--lime))' }}>{exp.company}</div>
                 </div>
               </div>
               {exp.description && (
-                <p className="text-white/75 text-base leading-relaxed font-light flex-1">{exp.description}</p>
+                <p className="text-white/80 text-base leading-relaxed font-light flex-1">{exp.description}</p>
               )}
               <div className="mt-5 pt-4 border-t border-white/10">
-                <span className="inline-block text-white/60 text-xs font-mono tracking-wide bg-white/5 border border-white/10 px-3 py-1 rounded-full">
+                <span
+                  className="inline-block text-xs font-mono tracking-wide px-3 py-1 rounded-full border"
+                  style={{
+                    color: 'rgb(var(--lime))',
+                    backgroundColor: 'rgba(var(--lime), 0.08)',
+                    borderColor: 'rgba(var(--lime), 0.30)',
+                  }}
+                >
                   {exp.period}
                 </span>
               </div>
@@ -80,18 +99,31 @@ const Experience = ({ experience, education }) => {
       <div className="grid md:grid-cols-2 gap-6 md:gap-8">
         {eduList.map((edu, idx) => (
           <Reveal key={idx} delay={idx * 100}>
-            <div className="group relative bg-gradient-to-br from-emerald-900/25 via-teal-900/20 to-cyan-900/25 backdrop-blur-xl border border-white/15 rounded-2xl p-7 shadow-2xl hover-lift overflow-hidden h-full flex flex-col">
-              <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-emerald-400/50 to-transparent" />
+            <div
+              className="group relative backdrop-blur-xl border rounded-2xl p-7 shadow-2xl hover-lift overflow-hidden h-full flex flex-col"
+              style={{
+                background: 'linear-gradient(135deg, rgba(199,251,110,0.18), rgba(79,53,230,0.18), rgba(255,255,255,0.04))',
+                borderColor: 'rgba(var(--lime), 0.25)',
+              }}
+            >
+              <div className="absolute top-0 left-0 w-full h-px" style={{ background: 'linear-gradient(90deg, transparent, rgba(199,251,110,0.85), transparent)' }} />
               <div className="flex items-start gap-4 mb-3">
                 {(edu.collegePfp || edu.schoolPfp) ? (
                   <img
                     src={edu.collegePfp || edu.schoolPfp}
                     alt={edu.type === 'college' ? edu.institution : edu.schoolName}
                     loading="lazy"
-                    className="w-11 h-11 rounded-xl object-cover border border-white/25 flex-shrink-0 shadow-md"
+                    className="w-11 h-11 rounded-xl object-cover border flex-shrink-0 shadow-md"
+                    style={{ borderColor: 'rgba(var(--lime), 0.50)' }}
                   />
                 ) : (
-                  <span className="inline-flex items-center justify-center w-11 h-11 rounded-xl bg-gradient-to-br from-emerald-500/40 to-cyan-500/40 border border-white/15 shadow-md shadow-emerald-500/20 group-hover:scale-110 transition-transform duration-300 flex-shrink-0">
+                  <span
+                    className="inline-flex items-center justify-center w-11 h-11 rounded-xl border shadow-md group-hover:scale-110 transition-transform duration-300 flex-shrink-0"
+                    style={{
+                      background: 'linear-gradient(135deg, rgba(199,251,110,0.55), rgba(79,53,230,0.40))',
+                      borderColor: 'rgba(var(--lime), 0.40)',
+                    }}
+                  >
                     {capIcon}
                   </span>
                 )}
@@ -99,26 +131,33 @@ const Experience = ({ experience, education }) => {
                   {edu.type === 'college' ? (
                     <>
                       <div className="text-xl font-semibold text-white leading-tight">{edu.institution}</div>
-                      <div className="text-white/85 text-sm font-light mt-0.5">{edu.program}{edu.branch ? ` · ${edu.branch}` : ''}</div>
+                      <div className="text-sm font-light mt-0.5" style={{ color: 'rgb(var(--lime))' }}>{edu.program}{edu.branch ? ` · ${edu.branch}` : ''}</div>
                     </>
                   ) : (
                     <>
                       <div className="text-xl font-semibold text-white leading-tight">{edu.schoolName}</div>
-                      <div className="text-white/85 text-sm font-light mt-0.5">{edu.board}{edu.class ? ` · ${edu.class}` : ''}</div>
+                      <div className="text-sm font-light mt-0.5" style={{ color: 'rgb(var(--lime))' }}>{edu.board}{edu.class ? ` · ${edu.class}` : ''}</div>
                     </>
                   )}
                 </div>
               </div>
 
               {edu.type === 'college' && edu.description && (
-                <p className="text-white/75 text-base leading-relaxed font-light flex-1">{edu.description}</p>
+                <p className="text-white/80 text-base leading-relaxed font-light flex-1">{edu.description}</p>
               )}
               {edu.type === 'school' && edu.marks && (
-                <p className="text-white/75 text-base leading-relaxed font-light flex-1">Marks: {edu.marks}</p>
+                <p className="text-white/80 text-base leading-relaxed font-light flex-1">Marks: {edu.marks}</p>
               )}
 
               <div className="mt-5 pt-4 border-t border-white/10">
-                <span className="inline-block text-white/60 text-xs font-mono tracking-wide bg-white/5 border border-white/10 px-3 py-1 rounded-full">
+                <span
+                  className="inline-block text-xs font-mono tracking-wide px-3 py-1 rounded-full border"
+                  style={{
+                    color: 'rgb(var(--lime))',
+                    backgroundColor: 'rgba(var(--lime), 0.08)',
+                    borderColor: 'rgba(var(--lime), 0.30)',
+                  }}
+                >
                   {edu.type === 'college' ? `${edu.startYear} - ${edu.endYear}` : edu.yearOfPassing}
                 </span>
               </div>

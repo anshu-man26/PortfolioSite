@@ -85,20 +85,26 @@ const Projects = ({ projects = [] }) => {
   }, [startAutoSlideshow]);
 
   return (
-    <section id="projects" className="py-24 bg-gradient-to-b from-black via-gray-900/40 to-black">
+    <section id="projects" className="py-24" style={{ background: 'linear-gradient(to bottom, rgb(var(--ink)), rgba(79,53,230,0.10), rgb(var(--ink)))' }}>
       <div className="max-w-6xl mx-auto px-6">
         <Reveal>
           <div className="text-center mb-16">
-            <span className="inline-block px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-white/60 text-xs uppercase tracking-[0.3em] mb-4">
+            <span
+              className="inline-block px-4 py-1.5 rounded-full border text-xs uppercase tracking-[0.3em] mb-4"
+              style={{
+                color: 'rgb(var(--lime))',
+                borderColor: 'rgba(var(--lime), 0.4)',
+                backgroundColor: 'rgba(var(--lime), 0.08)',
+              }}
+            >
               Selected Work
             </span>
-            <h2 className="text-4xl md:text-6xl font-light text-white">
+            <h2 className="text-4xl md:text-6xl font-extrabold text-white tracking-tight">
               Featured{' '}
-              <span className="bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400 bg-clip-text text-transparent">
-                Projects
-              </span>
+              <span style={{ color: 'rgb(var(--lime))' }}>Projects</span>
+              <span className="text-white">.</span>
             </h2>
-            <div className="w-24 h-1 bg-gradient-to-r from-blue-400 to-purple-400 mx-auto mt-6 rounded-full" />
+            <div className="w-24 h-1 mx-auto mt-6 rounded-full" style={{ backgroundColor: 'rgb(var(--lime))' }} />
           </div>
         </Reveal>
 
@@ -131,7 +137,14 @@ const Projects = ({ projects = [] }) => {
                       onMouseEnter={() => handleMouseEnter(index)}
                       onMouseLeave={handleMouseLeave}
                     >
-                      <div className="relative w-full h-80 md:h-96 rounded-2xl border border-white/10 overflow-hidden bg-gradient-to-br from-blue-500/20 to-purple-500/20 backdrop-blur-sm shadow-2xl shadow-purple-500/10 group-hover:shadow-purple-500/30 transition-shadow duration-500">
+                      <div
+                        className="relative w-full h-80 md:h-96 rounded-2xl border overflow-hidden backdrop-blur-sm shadow-2xl transition-shadow duration-500"
+                        style={{
+                          background: 'linear-gradient(135deg, rgba(79,53,230,0.30), rgba(199,251,110,0.18))',
+                          borderColor: 'rgba(var(--lime), 0.20)',
+                          boxShadow: '0 25px 50px -12px rgba(79,53,230,0.30)',
+                        }}
+                      >
                         {/* Gradient frame highlight */}
                         <div className="absolute inset-0 rounded-2xl pointer-events-none ring-1 ring-white/10 group-hover:ring-white/25 transition-all duration-300" />
 
@@ -280,7 +293,7 @@ const Projects = ({ projects = [] }) => {
                             .slice(0, 4)
                             .map((feature, featureIndex) => (
                               <li key={feature._id || featureIndex} className="flex items-start space-x-3">
-                                <span className="mt-2 inline-block w-1.5 h-1.5 rounded-full bg-gradient-to-r from-blue-400 to-purple-400 flex-shrink-0" />
+                                <span className="mt-2 inline-block w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ backgroundColor: 'rgb(var(--lime))' }} />
                                 <span className="text-white/70 font-light text-sm leading-relaxed">
                                   {typeof feature === 'string'
                                     ? feature
@@ -300,7 +313,8 @@ const Projects = ({ projects = [] }) => {
                             href={project.github}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="px-6 py-3 bg-white text-black rounded-full font-medium hover:bg-white/90 transition-all duration-300 hover:scale-[1.03] text-center inline-flex items-center justify-center gap-2"
+                            className="px-6 py-3 rounded-full font-semibold transition-all duration-300 hover:scale-[1.03] text-center inline-flex items-center justify-center gap-2"
+                            style={{ backgroundColor: 'rgb(var(--lime))', color: 'rgb(var(--ink))' }}
                           >
                             <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.58 2 12.26c0 4.49 2.87 8.3 6.84 9.64.5.09.68-.22.68-.48 0-.24-.01-.87-.01-1.7-2.78.62-3.37-1.36-3.37-1.36-.45-1.18-1.1-1.5-1.1-1.5-.9-.63.07-.62.07-.62 1 .07 1.53 1.05 1.53 1.05.89 1.56 2.34 1.11 2.91.85.09-.66.35-1.11.63-1.37-2.22-.26-4.56-1.14-4.56-5.07 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.7 0 0 .84-.28 2.75 1.05A9.38 9.38 0 0 1 12 6.84c.85.004 1.71.12 2.51.35 1.91-1.33 2.75-1.05 2.75-1.05.55 1.4.2 2.44.1 2.7.64.72 1.03 1.63 1.03 2.75 0 3.94-2.34 4.81-4.57 5.07.36.32.68.94.68 1.9 0 1.37-.01 2.47-.01 2.81 0 .27.18.58.69.48A10.01 10.01 0 0 0 22 12.26C22 6.58 17.52 2 12 2z"/></svg>
                             View on GitHub
@@ -311,7 +325,8 @@ const Projects = ({ projects = [] }) => {
                             href={project.live}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="px-6 py-3 border border-white/30 text-white rounded-full font-medium hover:bg-white/10 hover:border-white/50 transition-all duration-300 text-center inline-flex items-center justify-center gap-2"
+                            className="px-6 py-3 border-2 text-white rounded-full font-semibold transition-all duration-300 text-center inline-flex items-center justify-center gap-2 hover:scale-[1.03]"
+                            style={{ borderColor: 'rgba(var(--lime), 0.6)' }}
                           >
                             Live Demo
                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
