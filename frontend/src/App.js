@@ -275,7 +275,7 @@ function MainSite() {
 
       <ScrollProgress />
 
-      <div className="relative z-10">
+      <div className="relative z-10 md:pl-72 lg:pl-80">
         {backendStatus === 'offline' && isShowingPlaceholders && <BackendOfflineNotice />}
 
         <Header siteCopy={merged.siteCopy} />
