@@ -18,7 +18,9 @@ const Experience = ({ experience, education }) => {
   const expList = (experience && experience.length) ? experience : [
     {
       title: 'Full Stack Developer',
+      jobRole: 'Full Stack Developer',
       company: 'Freelance',
+      duration: '2023 - Present',
       period: '2023 - Present',
       description: 'Developing full-stack web applications using MERN stack, implementing real-time features, and ensuring optimal user experience.',
     },
@@ -56,22 +58,72 @@ const Experience = ({ experience, education }) => {
             >
               <div className="absolute top-0 left-0 w-full h-px" style={{ background: 'linear-gradient(90deg, transparent, rgba(199,251,110,0.7), transparent)' }} />
               <div className="flex items-start gap-4 mb-4">
-                <span
-                  className="inline-flex items-center justify-center w-11 h-11 rounded-xl border shadow-md group-hover:scale-110 transition-transform duration-300"
-                  style={{
-                    background: 'linear-gradient(135deg, rgba(199,251,110,0.55), rgba(79,53,230,0.45))',
-                    borderColor: 'rgba(var(--lime), 0.40)',
-                  }}
-                >
-                  {briefcaseIcon}
-                </span>
+                {exp.companyLogo ? (
+                  <img
+                    src={exp.companyLogo}
+                    alt={exp.company || 'Company'}
+                    loading="lazy"
+                    className="w-11 h-11 rounded-xl object-contain p-1 border flex-shrink-0 shadow-md bg-white/5"
+                    style={{ borderColor: 'rgba(var(--lime), 0.50)' }}
+                  />
+                ) : (
+                  <span
+                    className="inline-flex items-center justify-center w-11 h-11 rounded-xl border shadow-md group-hover:scale-110 transition-transform duration-300"
+                    style={{
+                      background: 'linear-gradient(135deg, rgba(199,251,110,0.55), rgba(79,53,230,0.45))',
+                      borderColor: 'rgba(var(--lime), 0.40)',
+                    }}
+                  >
+                    {briefcaseIcon}
+                  </span>
+                )}
                 <div className="flex-1 min-w-0">
-                  <div className="text-xl font-semibold text-white leading-tight">{exp.title}</div>
+                  <div className="text-xl font-semibold text-white leading-tight">{exp.jobRole || exp.title}</div>
                   <div className="text-sm mt-0.5" style={{ color: 'rgb(var(--lime))' }}>{exp.company}</div>
                 </div>
               </div>
-              {exp.description && (
-                <p className="text-white/80 text-base leading-relaxed font-light flex-1">{exp.description}</p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2 text-xs text-white/70 mb-4">
+                {exp.team && (
+                  <div>
+                    <span className="text-white/45">Team:</span> <span className="text-white/90">{exp.team}</span>
+                  </div>
+                )}
+                {exp.employmentType && (
+                  <div>
+                    <span className="text-white/45">Type:</span> <span className="text-white/90">{exp.employmentType}</span>
+                  </div>
+                )}
+                {exp.location && (
+                  <div>
+                    <span className="text-white/45">Location:</span> <span className="text-white/90">{exp.location}</span>
+                  </div>
+                )}
+              </div>
+              {(exp.workSummary || exp.description) && (
+                <p className="text-white/80 text-base leading-relaxed font-light flex-1">{exp.workSummary || exp.description}</p>
+              )}
+              {exp.workHighlights && (
+                <div className="mt-3 text-white/75 text-sm leading-relaxed">
+                  {exp.workHighlights
+                    .split('\n')
+                    .map((line) => line.trim())
+                    .filter(Boolean).length > 1 ? (
+                    <ul className="space-y-2 list-disc pl-5">
+                      {exp.workHighlights
+                        .split('\n')
+                        .map((line) => line.trim())
+                        .filter(Boolean)
+                        .map((line, index) => (
+                          <li key={index}>{line}</li>
+                        ))}
+                    </ul>
+                  ) : (
+                    <div className="whitespace-pre-line">{exp.workHighlights}</div>
+                  )}
+                </div>
+              )}
+              {exp.techStack && (
+                <div className="mt-3 text-xs font-mono text-white/60">Tech: {exp.techStack}</div>
               )}
               <div className="mt-5 pt-4 border-t border-white/10">
                 <span
@@ -82,7 +134,7 @@ const Experience = ({ experience, education }) => {
                     borderColor: 'rgba(var(--lime), 0.30)',
                   }}
                 >
-                  {exp.period}
+                  {exp.duration || exp.period}
                 </span>
               </div>
             </div>
@@ -113,7 +165,7 @@ const Experience = ({ experience, education }) => {
                     src={edu.collegePfp || edu.schoolPfp}
                     alt={edu.type === 'college' ? edu.institution : edu.schoolName}
                     loading="lazy"
-                    className="w-11 h-11 rounded-xl object-cover border flex-shrink-0 shadow-md"
+                    className="w-11 h-11 rounded-xl object-contain p-1 border flex-shrink-0 shadow-md bg-white/5"
                     style={{ borderColor: 'rgba(var(--lime), 0.50)' }}
                   />
                 ) : (

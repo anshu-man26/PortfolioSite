@@ -10,6 +10,7 @@ export const API_ENDPOINTS = {
   ADMIN_PERSONAL_PFP: `${API_BASE_URL}/api/admin/personal-pfp`,
   ADMIN_COLLEGE_PFP: `${API_BASE_URL}/api/admin/college-pfp`,
   ADMIN_SCHOOL_PFP: `${API_BASE_URL}/api/admin/school-pfp`,
+  ADMIN_EXPERIENCE_LOGO: `${API_BASE_URL}/api/admin/experience-logo`,
   
   PASSWORD_REQUEST_RESET: `${API_BASE_URL}/api/password/request-reset`,
   PASSWORD_RESET: `${API_BASE_URL}/api/password/reset`,
@@ -19,6 +20,7 @@ export const API_ENDPOINTS = {
   
   PROJECTS: `${API_BASE_URL}/api/projects`,
   PROJECT_BY_ID: (id) => `${API_BASE_URL}/api/projects/${id}`,
+  PROJECT_ORDER_UPDATE: `${API_BASE_URL}/api/projects/order/update`,
   
   FEATURES: `${API_BASE_URL}/api/features`,
   FEATURE_BY_ID: (id) => `${API_BASE_URL}/api/features/${id}`,

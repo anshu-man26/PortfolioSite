@@ -8,6 +8,7 @@ const projectSchema = new mongoose.Schema({
   mainImage: { type: String },
   github: { type: String },
   live: { type: String },
+  order: { type: Number, default: 0 },
   createdAt: { type: Date, default: Date.now },
 });
 

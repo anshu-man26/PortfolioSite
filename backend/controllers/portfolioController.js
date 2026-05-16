@@ -153,3 +153,44 @@ exports.uploadPersonalPfp = async (req, res) => {
   
   require('streamifier').createReadStream(req.file.buffer).pipe(stream);
 }; 
+
+// Upload company logo for an experience entry
+exports.uploadExperienceLogo = async (req, res) => {
+  if (!req.file) {
+    return res.status(400).json({ message: 'No file uploaded' });
+  }
+
+  const { experienceIndex } = req.body;
+  if (experienceIndex === undefined) {
+    return res.status(400).json({ message: 'Experience index is required' });
+  }
+
+  const stream = cloudinary.uploader.upload_stream({
+    folder: 'portfolio/companyLogos',
+    resource_type: 'image',
+  }, async (error, result) => {
+    if (error) {
+      return res.status(500).json({ message: 'Cloudinary upload error' });
+    }
+
+    try {
+      let portfolio = await Portfolio.findOne();
+      if (!portfolio) {
+        portfolio = await Portfolio.create({});
+      }
+
+      if (!portfolio.experience[experienceIndex]) {
+        return res.status(400).json({ message: 'Experience entry not found' });
+      }
+
+      portfolio.experience[experienceIndex].companyLogo = result.secure_url;
+      await portfolio.save();
+
+      return res.json({ url: result.secure_url });
+    } catch (err) {
+      return res.status(500).json({ message: 'Failed to save portfolio data' });
+    }
+  });
+
+  require('streamifier').createReadStream(req.file.buffer).pipe(stream);
+};

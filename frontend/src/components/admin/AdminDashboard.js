@@ -60,6 +60,12 @@ const AdminDashboard = () => {
   const [projectSearchTerm, setProjectSearchTerm] = useState('');
   // Add state for change password modal
   const [showChangePassword, setShowChangePassword] = useState(false);
+  const [isProjectReordering, setIsProjectReordering] = useState(false);
+  const [draggedProjectId, setDraggedProjectId] = useState(null);
+  const [showExperienceModal, setShowExperienceModal] = useState(false);
+  const [editExperienceIndex, setEditExperienceIndex] = useState(null);
+  const [experienceLogoUploadLoading, setExperienceLogoUploadLoading] = useState({}); // { idx: boolean }
+  const [pendingExperienceLogo, setPendingExperienceLogo] = useState({}); // { idx: File }
   
   // Close project selector when clicking outside
   useEffect(() => {
@@ -170,20 +176,40 @@ const AdminDashboard = () => {
   };
 
   // Add/remove experience/education
+  const createEmptyExperience = () => ({
+    title: '',
+    jobRole: '',
+    company: '',
+    period: '',
+    duration: '',
+    team: '',
+    location: '',
+    employmentType: '',
+    description: '',
+    workSummary: '',
+    workHighlights: '',
+    techStack: '',
+    companyLogo: '',
+  });
+
   const addExperience = () => {
-    setPortfolio((prev) => ({ ...prev, experience: [...(prev.experience || []), { title: '', company: '', period: '', description: '' }] }));
-  };
-  const removeExperience = (idx) => {
-    setPortfolio((prev) => ({ ...prev, experience: prev.experience.filter((_, i) => i !== idx) }));
-  };
-
-  const removeEducation = (idx) => {
-    setPortfolio((prev) => ({ ...prev, education: prev.education.filter((_, i) => i !== idx) }));
+    const nextIndex = (portfolio?.experience || []).length;
+    setPortfolio((prev) => ({ ...prev, experience: [...(prev.experience || []), createEmptyExperience()] }));
+    setEditExperienceIndex(nextIndex);
+    setShowExperienceModal(true);
   };
 
-  // Save portfolio
-  const handleSavePortfolio = async (e) => {
-    e.preventDefault();
+  const openExperienceModal = (idx) => {
+    setEditExperienceIndex(idx);
+    setShowExperienceModal(true);
+  };
+
+  const closeExperienceModal = () => {
+    setShowExperienceModal(false);
+    setEditExperienceIndex(null);
+  };
+
+  const savePortfolio = async () => {
     setPortfolioLoading(true);
     setPortfolioError('');
     try {
@@ -202,11 +228,94 @@ const AdminDashboard = () => {
         }),
       });
       if (!res.ok) throw new Error('Failed to update portfolio');
-      fetchPortfolio();
+      await fetchPortfolio();
+      return true;
     } catch (err) {
       setPortfolioError('Failed to update portfolio');
+      return false;
     } finally {
       setPortfolioLoading(false);
+    }
+  };
+
+  const handleExperienceLogoChange = (e, idx) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    setPendingExperienceLogo((prev) => ({ ...prev, [idx]: file }));
+  };
+
+  const handleUploadExperienceLogo = async (idx) => {
+    const file = pendingExperienceLogo[idx];
+    if (!file) return;
+
+    setExperienceLogoUploadLoading((prev) => ({ ...prev, [idx]: true }));
+    setUploadSuccess({});
+    try {
+      const formData = new FormData();
+      formData.append('image', file);
+      formData.append('experienceIndex', idx.toString());
+
+      const res = await fetch(API_ENDPOINTS.ADMIN_EXPERIENCE_LOGO, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('adminToken')}`,
+        },
+        body: formData,
+      });
+
+      const data = await res.json();
+      if (!res.ok || !data.url) throw new Error(data.message || 'Upload failed');
+
+      setPortfolio((prev) => {
+        const updated = { ...prev, experience: [...(prev.experience || [])] };
+        if (!updated.experience[idx]) return prev;
+        updated.experience[idx] = { ...updated.experience[idx], companyLogo: data.url };
+        return updated;
+      });
+
+      setPendingExperienceLogo((prev) => {
+        const next = { ...prev };
+        delete next[idx];
+        return next;
+      });
+
+      setUploadSuccess({ type: 'experience', message: 'Company logo uploaded successfully!' });
+      setTimeout(() => setUploadSuccess({}), 3000);
+    } catch (err) {
+      setError('Failed to upload company logo');
+    } finally {
+      setExperienceLogoUploadLoading((prev) => ({ ...prev, [idx]: false }));
+    }
+  };
+
+  const removeExperience = (idx) => {
+    setPortfolio((prev) => ({ ...prev, experience: prev.experience.filter((_, i) => i !== idx) }));
+    setPendingExperienceLogo((prev) => {
+      const next = { ...prev };
+      delete next[idx];
+      return next;
+    });
+    if (editExperienceIndex === idx) {
+      closeExperienceModal();
+    }
+  };
+
+  const removeEducation = (idx) => {
+    setPortfolio((prev) => ({ ...prev, education: prev.education.filter((_, i) => i !== idx) }));
+  };
+
+  // Save portfolio
+  const handleSavePortfolio = async (e) => {
+    e.preventDefault();
+    await savePortfolio();
+  };
+
+  const handleSaveExperienceModal = async () => {
+    const saved = await savePortfolio();
+    if (saved) {
+      closeExperienceModal();
+      setUploadSuccess({ type: 'experience', message: 'Experience saved successfully!' });
+      setTimeout(() => setUploadSuccess({}), 3000);
     }
   };
 
@@ -242,6 +351,74 @@ const AdminDashboard = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const persistProjectOrder = async (reorderedProjects) => {
+    const projectOrders = reorderedProjects.map((project, index) => ({
+      projectId: project._id,
+      order: index,
+    }));
+
+    const res = await fetch(API_ENDPOINTS.PROJECT_ORDER_UPDATE, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('adminToken')}`,
+      },
+      body: JSON.stringify({ projectOrders }),
+    });
+
+    if (!res.ok) {
+      throw new Error('Failed to update project order');
+    }
+  };
+
+  const handleProjectDragStart = (e, projectId) => {
+    setDraggedProjectId(projectId);
+    e.dataTransfer.effectAllowed = 'move';
+  };
+
+  const handleProjectDragOver = (e) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+  };
+
+  const handleProjectDrop = async (e, targetProjectId) => {
+    e.preventDefault();
+    if (!draggedProjectId || draggedProjectId === targetProjectId) {
+      setDraggedProjectId(null);
+      return;
+    }
+
+    const draggedIndex = projects.findIndex((project) => project._id === draggedProjectId);
+    const targetIndex = projects.findIndex((project) => project._id === targetProjectId);
+    if (draggedIndex === -1 || targetIndex === -1) {
+      setDraggedProjectId(null);
+      return;
+    }
+
+    setIsProjectReordering(true);
+    setError('');
+
+    try {
+      const reorderedProjects = [...projects];
+      const [movedProject] = reorderedProjects.splice(draggedIndex, 1);
+      reorderedProjects.splice(targetIndex, 0, movedProject);
+
+      setProjects(reorderedProjects);
+      await persistProjectOrder(reorderedProjects);
+      fetchProjects();
+    } catch (err) {
+      setError('Failed to update project order');
+      fetchProjects();
+    } finally {
+      setIsProjectReordering(false);
+      setDraggedProjectId(null);
+    }
+  };
+
+  const handleProjectDragEnd = () => {
+    setDraggedProjectId(null);
   };
 
   const handleAddFeature = async (e) => {
@@ -661,6 +838,7 @@ const AdminDashboard = () => {
   const filteredFeatures = selectedProject 
     ? features.filter(feature => feature.project === selectedProject || feature.project?._id === selectedProject)
     : [];
+  const activeExperience = editExperienceIndex !== null ? portfolio?.experience?.[editExperienceIndex] : null;
 
   return (
     <div className="min-h-screen flex" style={{ backgroundColor: '#0a0820' }}>
@@ -931,6 +1109,12 @@ const AdminDashboard = () => {
                     </div>
                   </div>
                 )}
+                {isProjectReordering && (
+                  <div className="text-white/60 text-center">Updating project order...</div>
+                )}
+                {projects.length > 1 && !loading && (
+                  <div className="text-white/60 text-sm text-center">Drag and drop projects to arrange display order on your main portfolio site.</div>
+                )}
                 
                 {projects.length === 0 && !loading && (
                   <div className="text-center py-12">
@@ -954,7 +1138,14 @@ const AdminDashboard = () => {
                 )}
                 
                 {projects.map((project) => (
-                  <div key={project._id} className="bg-white/5 backdrop-blur-xl rounded-2xl p-6 border border-white/10 shadow-xl hover:shadow-2xl transition-all duration-300 group">
+                  <div
+                    key={project._id}
+                    className={`bg-white/5 backdrop-blur-xl rounded-2xl p-6 border border-white/10 shadow-xl hover:shadow-2xl transition-all duration-300 group ${
+                      draggedProjectId === project._id ? 'opacity-50 scale-[0.99]' : ''
+                    }`}
+                    onDragOver={handleProjectDragOver}
+                    onDrop={(e) => handleProjectDrop(e, project._id)}
+                  >
                     <div className="flex flex-col lg:flex-row gap-6">
                       {/* Project Image */}
                       <div className="lg:w-48 lg:h-32 flex-shrink-0">
@@ -976,9 +1167,20 @@ const AdminDashboard = () => {
                       {/* Project Content */}
                     <div className="flex-1">
                         <div className="flex items-start justify-between mb-3">
-                          <h3 className="text-2xl font-semibold text-white group-hover:text-[#C7FB6E] transition-colors duration-300">
-                            {project.title}
-                          </h3>
+                          <div className="flex items-center gap-3">
+                            <div
+                              draggable
+                              onDragStart={(e) => handleProjectDragStart(e, project._id)}
+                              onDragEnd={handleProjectDragEnd}
+                              className="text-white/40 text-lg cursor-grab active:cursor-grabbing select-none"
+                              title="Drag to reorder"
+                            >
+                              ⋮⋮
+                            </div>
+                            <h3 className="text-2xl font-semibold text-white group-hover:text-[#C7FB6E] transition-colors duration-300">
+                              {project.title}
+                            </h3>
+                          </div>
                           <div className="flex gap-2">
                             <button 
                               onClick={() => openEditModal(project)} 
@@ -1442,19 +1644,98 @@ const AdminDashboard = () => {
                     </div>
                   )}
                   {portfolioTab === 'experience' && (
-                    <div>
+                    <div className="space-y-4">
+                      {(portfolio.experience || []).length === 0 && (
+                        <div className="text-white/60 text-sm bg-white/5 border border-white/10 rounded-xl p-4">No experience entries yet. Click Add Experience to create one.</div>
+                      )}
+
                       {(portfolio.experience || []).map((exp, idx) => (
-                        <div key={idx} className="mb-4 bg-white/5 p-4 rounded-lg">
-                          <div className="flex gap-2 mb-2">
-                            <input className="flex-1 px-3 py-2 rounded bg-white/20 text-white font-light" value={exp.title} onChange={e => handlePortfolioChange('experience', 'title', e.target.value, idx)} placeholder="Title" />
-                            <input className="flex-1 px-3 py-2 rounded bg-white/20 text-white font-light" value={exp.company} onChange={e => handlePortfolioChange('experience', 'company', e.target.value, idx)} placeholder="Company" />
-                            <input className="flex-1 px-3 py-2 rounded bg-white/20 text-white font-light" value={exp.period} onChange={e => handlePortfolioChange('experience', 'period', e.target.value, idx)} placeholder="Period" />
+                        <div key={idx} className="bg-white/5 border border-white/10 rounded-xl p-4 flex items-center justify-between gap-4">
+                          <div className="flex items-center gap-3 min-w-0">
+                            {exp.companyLogo ? (
+                              <img src={exp.companyLogo} alt={exp.company || 'Company'} className="w-12 h-12 rounded-lg object-contain p-1 bg-white/5 border border-[#C7FB6E]/40" />
+                            ) : (
+                              <div className="w-12 h-12 rounded-lg bg-white/10 border border-white/20 flex items-center justify-center text-white/60 text-xs">LOGO</div>
+                            )}
+                            <div className="min-w-0">
+                              <div className="text-white font-medium truncate">{exp.jobRole || exp.title || 'Untitled Role'}</div>
+                              <div className="text-white/65 text-sm truncate">{exp.company || 'No company'}{(exp.duration || exp.period) ? ` • ${exp.duration || exp.period}` : ''}</div>
+                              {(exp.team || exp.employmentType) && (
+                                <div className="text-[#C7FB6E] text-xs mt-1">{[exp.team, exp.employmentType].filter(Boolean).join(' • ')}</div>
+                              )}
+                            </div>
                           </div>
-                          <textarea className="w-full px-3 py-2 rounded bg-white/20 text-white font-light mb-2" value={exp.description} onChange={e => handlePortfolioChange('experience', 'description', e.target.value, idx)} placeholder="Description" />
-                          <button type="button" onClick={() => removeExperience(idx)} className="text-[#FF6B8A] hover:underline text-xs">Remove</button>
+
+                          <div className="flex items-center gap-2 shrink-0">
+                            <button
+                              type="button"
+                              onClick={() => openExperienceModal(idx)}
+                              className="px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-white text-xs font-medium border border-white/20 transition-all duration-200"
+                            >
+                              Edit Details
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => removeExperience(idx)}
+                              className="px-3 py-1.5 rounded-lg bg-transparent border border-[#FF6B8A]/40 text-[#FF6B8A] hover:bg-[#FF6B8A]/10 text-xs font-medium transition-all duration-200"
+                            >
+                              Remove
+                            </button>
+                          </div>
                         </div>
                       ))}
-                      <button type="button" onClick={addExperience} className="px-4 py-2 rounded-lg bg-[#C7FB6E] hover:bg-[#C7FB6E]/90 text-[#0a0820] font-bold font-medium transition-all duration-200">Add Experience</button>
+
+                      <button type="button" onClick={addExperience} className="px-4 py-2 rounded-lg bg-[#C7FB6E] hover:bg-[#C7FB6E]/90 text-[#0a0820] font-bold transition-all duration-200">Add Experience</button>
+
+                      {showExperienceModal && activeExperience && (
+                        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 px-4">
+                          <div className="w-full max-w-3xl bg-[#0f0d2a] border border-white/10 rounded-2xl shadow-2xl overflow-hidden">
+                            <div className="px-6 py-4 border-b border-white/10 flex items-center justify-between">
+                              <h3 className="text-white text-xl font-semibold">Experience Details</h3>
+                              <button type="button" onClick={closeExperienceModal} className="text-white/60 hover:text-white text-sm">Close</button>
+                            </div>
+
+                            <div className="p-6 space-y-5 max-h-[75vh] overflow-y-auto">
+                              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <input className="px-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white font-light" value={activeExperience.jobRole || ''} onChange={e => handlePortfolioChange('experience', 'jobRole', e.target.value, editExperienceIndex)} placeholder="Job role (e.g. Senior Frontend Engineer)" />
+                                <input className="px-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white font-light" value={activeExperience.company || ''} onChange={e => handlePortfolioChange('experience', 'company', e.target.value, editExperienceIndex)} placeholder="Company" />
+                                <input className="px-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white font-light" value={activeExperience.team || ''} onChange={e => handlePortfolioChange('experience', 'team', e.target.value, editExperienceIndex)} placeholder="Team (e.g. Core Payments)" />
+                                <input className="px-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white font-light" value={activeExperience.duration || activeExperience.period || ''} onChange={e => { handlePortfolioChange('experience', 'duration', e.target.value, editExperienceIndex); handlePortfolioChange('experience', 'period', e.target.value, editExperienceIndex); }} placeholder="Duration (e.g. Jan 2023 - Present)" />
+                                <input className="px-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white font-light" value={activeExperience.employmentType || ''} onChange={e => handlePortfolioChange('experience', 'employmentType', e.target.value, editExperienceIndex)} placeholder="Employment type (Full-time, Contract...)" />
+                                <input className="px-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white font-light" value={activeExperience.location || ''} onChange={e => handlePortfolioChange('experience', 'location', e.target.value, editExperienceIndex)} placeholder="Location (Remote, Bengaluru...)" />
+                                <input className="md:col-span-2 px-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white font-light" value={activeExperience.techStack || ''} onChange={e => handlePortfolioChange('experience', 'techStack', e.target.value, editExperienceIndex)} placeholder="Tech stack (React, Node.js, GraphQL...)" />
+                              </div>
+
+                              <textarea className="w-full px-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white font-light min-h-[90px]" value={activeExperience.workSummary || activeExperience.description || ''} onChange={e => { handlePortfolioChange('experience', 'workSummary', e.target.value, editExperienceIndex); handlePortfolioChange('experience', 'description', e.target.value, editExperienceIndex); }} placeholder="Work summary (high-level impact and scope)" />
+                              <textarea className="w-full px-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white font-light min-h-[120px]" value={activeExperience.workHighlights || ''} onChange={e => handlePortfolioChange('experience', 'workHighlights', e.target.value, editExperienceIndex)} placeholder="Work details / highlights (one per line)" />
+
+                              <div className="bg-white/5 border border-white/10 rounded-xl p-4">
+                                <div className="text-white/80 text-sm mb-3">Company Logo</div>
+                                <div className="flex items-center gap-3 flex-wrap">
+                                  <input type="file" accept="image/*" onChange={e => handleExperienceLogoChange(e, editExperienceIndex)} disabled={experienceLogoUploadLoading[editExperienceIndex]} className="text-white text-sm" />
+                                  {pendingExperienceLogo[editExperienceIndex] && (
+                                    <>
+                                      <img src={URL.createObjectURL(pendingExperienceLogo[editExperienceIndex])} alt="Logo preview" className="w-12 h-12 rounded-lg object-contain p-1 bg-white/5 border border-white/20" />
+                                      <button type="button" onClick={() => handleUploadExperienceLogo(editExperienceIndex)} className="px-3 py-1 rounded bg-[#C7FB6E] hover:bg-[#C7FB6E]/90 text-[#0a0820] font-bold text-xs" disabled={experienceLogoUploadLoading[editExperienceIndex]}>
+                                        Upload Logo
+                                      </button>
+                                    </>
+                                  )}
+                                  {experienceLogoUploadLoading[editExperienceIndex] && <span className="text-white/60 text-xs">Uploading...</span>}
+                                  {activeExperience.companyLogo && !pendingExperienceLogo[editExperienceIndex] && (
+                                    <img src={activeExperience.companyLogo} alt="Company logo" className="w-12 h-12 rounded-lg object-contain p-1 bg-white/5 border border-[#C7FB6E]/40" />
+                                  )}
+                                </div>
+                              </div>
+                            </div>
+
+                            <div className="px-6 py-4 border-t border-white/10 flex justify-end gap-3">
+                              <button type="button" onClick={closeExperienceModal} className="px-4 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-white text-sm border border-white/20">Cancel</button>
+                              <button type="button" onClick={handleSaveExperienceModal} className="px-4 py-2 rounded-lg bg-[#C7FB6E] hover:bg-[#C7FB6E]/90 text-[#0a0820] text-sm font-bold">Save Experience</button>
+                            </div>
+                          </div>
+                        </div>
+                      )}
                     </div>
                   )}
                   {portfolioTab === 'education' && (

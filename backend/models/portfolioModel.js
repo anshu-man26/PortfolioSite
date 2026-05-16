@@ -12,8 +12,17 @@ const socialLinksSchema = new mongoose.Schema({
 
 const experienceSchema = new mongoose.Schema({
   title: String,
+  jobRole: String,
   company: String,
   period: String,
+  duration: String,
+  team: String,
+  location: String,
+  employmentType: String,
+  companyLogo: String,
+  workSummary: String,
+  workHighlights: String,
+  techStack: String,
   description: String,
 });
 

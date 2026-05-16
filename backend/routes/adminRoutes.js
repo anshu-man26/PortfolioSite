@@ -3,7 +3,7 @@ const router = express.Router();
 const { protect } = require('../middleware/auth');
 const { loginAdmin, getAdminProfile } = require('../controllers/adminController');
 const upload = require('../middleware/upload');
-const { getPortfolio, updatePortfolio, uploadCollegePfp, uploadSchoolPfp, uploadPersonalPfp } = require('../controllers/portfolioController');
+const { getPortfolio, updatePortfolio, uploadCollegePfp, uploadSchoolPfp, uploadPersonalPfp, uploadExperienceLogo } = require('../controllers/portfolioController');
 
 // Public routes
 router.post('/login', loginAdmin);
@@ -15,5 +15,6 @@ router.put('/portfolio', protect, updatePortfolio);
 router.post('/college-pfp', protect, upload.single('image'), uploadCollegePfp);
 router.post('/school-pfp', protect, upload.single('image'), uploadSchoolPfp);
 router.post('/personal-pfp', protect, upload.single('image'), uploadPersonalPfp);
+router.post('/experience-logo', protect, upload.single('image'), uploadExperienceLogo);
 
 module.exports = router; 

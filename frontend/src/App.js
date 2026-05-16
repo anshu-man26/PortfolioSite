@@ -46,8 +46,12 @@ const DEFAULT_DATA = {
   experience: [
     {
       title: 'Full Stack Developer',
+      jobRole: 'Full Stack Developer',
       company: 'Freelance',
+      duration: '2023 - Present',
       period: '2023 - Present',
+      team: 'Product Engineering',
+      employmentType: 'Contract',
       description:
         'Developing full-stack web applications using MERN stack, implementing real-time features, and ensuring optimal user experience.',
     },

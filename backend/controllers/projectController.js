@@ -7,7 +7,7 @@ const cloudinary = require('../config/cloudinary');
 // @access  Public
 const getProjects = async (req, res) => {
   try {
-    const projects = await Project.find({}).populate('features');
+    const projects = await Project.find({}).sort({ order: 1, createdAt: -1 }).populate('features');
     res.json(projects);
   } catch (error) {
     res.status(500).json({ message: 'Server error' });
@@ -51,6 +51,9 @@ const createProject = async (req, res) => {
       });
     }
 
+    const maxOrderProject = await Project.findOne({}).sort({ order: -1 });
+    const newOrder = maxOrderProject ? maxOrderProject.order + 1 : 0;
+
     const project = new Project({
       title,
       description,
@@ -58,11 +61,36 @@ const createProject = async (req, res) => {
       github,
       live,
       mainImage,
+      order: newOrder,
     });
 
     const createdProject = await project.save();
     res.status(201).json(createdProject);
   } catch (error) {
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+// @desc    Update project order (admin only)
+// @route   PUT /api/projects/order/update
+// @access  Private
+const updateProjectOrder = async (req, res) => {
+  try {
+    const { projectOrders } = req.body; // Array of { projectId, order }
+
+    if (!Array.isArray(projectOrders)) {
+      return res.status(400).json({ message: 'Invalid project orders data' });
+    }
+
+    const updatePromises = projectOrders.map(({ projectId, order }) =>
+      Project.findByIdAndUpdate(projectId, { order }, { new: true })
+    );
+
+    await Promise.all(updatePromises);
+
+    res.json({ message: 'Project order updated successfully' });
+  } catch (error) {
+    console.error('Update project order error:', error);
     res.status(500).json({ message: 'Server error' });
   }
 };
@@ -134,6 +162,7 @@ module.exports = {
   getProjects,
   getProject,
   createProject,
+  updateProjectOrder,
   updateProject,
   deleteProject,
 }; 
